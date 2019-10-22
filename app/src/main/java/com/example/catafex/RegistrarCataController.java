@@ -1,12 +1,11 @@
 package com.example.catafex;
 
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
-import retrofit2.Call;
-import retrofit2.Callback;
-import retrofit2.Response;
 
+import android.os.AsyncTask;
 import android.os.Bundle;
-import android.util.Log;
+
 import android.view.View;
 import android.widget.Button;
 import android.widget.SeekBar;
@@ -15,7 +14,6 @@ import android.widget.Toast;
 
 
 import com.example.Models.Cata;
-import com.example.Remote.APIUtils;
 import com.example.Remote.CataService;
 
 import java.util.ArrayList;
@@ -52,33 +50,51 @@ public class RegistrarCataController extends AppCompatActivity {
         numAtributos.add((TextView) findViewById(R.id.numResidual));
         numAtributos.add((TextView) findViewById(R.id.numGlobal));
 
-        regitrar=(Button)findViewById(R.id.buttonRegistrar);
+        regitrar = (Button) findViewById(R.id.buttonRegistrar);
 
-        cataService = APIUtils.getCataService();
 
         obtenerSeekBar();
 
         regitrar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Cata cata = new Cata("CA-1", seekBarsAtributos.get(0).getProgress(),
-                        seekBarsAtributos.get(1).getProgress(),seekBarsAtributos.get(2).getProgress(),
-                        -1,seekBarsAtributos.get(3).getProgress(),
-                        seekBarsAtributos.get(4).getProgress(),seekBarsAtributos.get(5).getProgress(),
-                        seekBarsAtributos.get(6).getProgress(),seekBarsAtributos.get(7).getProgress(),
-                        "excelente");
-                registrarCata(cata);
+                try {
+                    Cata cata = new Cata();
+                    cata.setCodCatacion("CT-2");
+                    cata.setFragancia(seekBarsAtributos.get(0).getProgress());
+                    cata.setAroma(seekBarsAtributos.get(1).getProgress());
+                    cata.setAcidez(seekBarsAtributos.get(2).getProgress());
+                    cata.setAmargo(seekBarsAtributos.get(3).getProgress());
+                    cata.setCuerpo(seekBarsAtributos.get(4).getProgress());
+                    cata.setRancidez(seekBarsAtributos.get(5).getProgress());
+                    cata.setSaborResidual(seekBarsAtributos.get(6).getProgress());
+                    cata.setImpresionGlobal(seekBarsAtributos.get(7).getProgress());
+                    cata.setDulce(-1);
+                    cata.setObservaciones("excelente");
+                    Boolean result = new HttpRequestAdd().execute(cata).get();
+                    if (result) {
+                        Toast.makeText(RegistrarCataController.this, "Cata Registrada", Toast.LENGTH_SHORT).show();
+                    } else {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                        builder.setMessage("Failed");
+                        builder.create().show();
+                    }
+                } catch (Exception e) {
+                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                    builder.setMessage("Failed");
+                }
 
             }
         });
     }
-    public void obtenerSeekBar () {
-        for(int i=0; i<seekBarsAtributos.size();i++){
 
-            numAtributos.get(i).setText(""+seekBarsAtributos.get(i).getProgress());
+    public void obtenerSeekBar() {
+        for (int i = 0; i < seekBarsAtributos.size(); i++) {
+
+            numAtributos.get(i).setText("" + seekBarsAtributos.get(i).getProgress());
         }
-        for (int j=0; j<seekBarsAtributos.size();j++) {
-            final int cont=j;
+        for (int j = 0; j < seekBarsAtributos.size(); j++) {
+            final int cont = j;
             seekBarsAtributos.get(j).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
                 public void onProgressChanged(SeekBar seekBar, int i, boolean b) {
@@ -100,21 +116,18 @@ public class RegistrarCataController extends AppCompatActivity {
 
     }
 
-    public void registrarCata(Cata cata){
-        Call<Boolean> call = cataService.registrarCata(cata);
-        call.enqueue(new Callback<Boolean>() {
-            @Override
-            public void onResponse(Call<Boolean> call, Response<Boolean> response) {
-                if(response.isSuccessful()){
-                    Toast.makeText(RegistrarCataController.this, "Cata Registrada",Toast.LENGTH_SHORT).show();
-                }
-            }
+    private class HttpRequestAdd extends AsyncTask<Cata, Void, Boolean> {
 
-            @Override
-            public void onFailure(Call<Boolean> call, Throwable t) {
-                Log.e("ERROR: ", t.getMessage());
-            }
-        });
+        @Override
+        protected Boolean doInBackground(Cata... catas) {
+            CataService cataService = new CataService();
+            return cataService.registrar(catas[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+        }
     }
 }
 

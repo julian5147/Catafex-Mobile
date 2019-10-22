@@ -1,56 +1,30 @@
 package com.example.Models;
 
-import com.google.gson.annotations.Expose;
-import com.google.gson.annotations.SerializedName;
+import java.io.Serializable;
 
-public class Cata {
-    @SerializedName("codCatacion")
-    @Expose
+public class Cata implements Serializable {
+
     private String codCatacion;
-    @SerializedName("fragancia")
-    @Expose
+
     private int fragancia;
-    @SerializedName("aroma")
-    @Expose
+
     private int aroma;
-    @SerializedName("acidez")
-    @Expose
+
     private int acidez;
-    @SerializedName("dulce")
-    @Expose
+
     private  int dulce;
-    @SerializedName("amargo")
-    @Expose
+
     private int amargo;
-    @SerializedName("cuerpo")
-    @Expose
+
     private int cuerpo;
-    @SerializedName("rancidez")
-    @Expose
+
     private int rancidez;
-    @SerializedName("residual")
-    @Expose
+
     private int saborResidual;
-    @SerializedName("global")
-    @Expose
+
     private int impresionGlobal;
-    @SerializedName("observaciones")
-    @Expose
     private  String observaciones;
 
-    public Cata(String codCatacion, int fragancia, int aroma, int acidez, int dulce, int amargo, int cuerpo, int rancidez, int saborResidual, int impresionGlobal, String observaciones) {
-        this.codCatacion = codCatacion;
-        this.fragancia = fragancia;
-        this.aroma = aroma;
-        this.acidez = acidez;
-        this.dulce = dulce;
-        this.amargo = amargo;
-        this.cuerpo = cuerpo;
-        this.rancidez = rancidez;
-        this.saborResidual = saborResidual;
-        this.impresionGlobal = impresionGlobal;
-        this.observaciones = observaciones;
-    }
 
     public int getFragancia() {
         return fragancia;
