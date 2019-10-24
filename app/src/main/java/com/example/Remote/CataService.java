@@ -1,5 +1,4 @@
 package com.example.Remote;
-
 import com.example.Models.Cata;
 
 import org.json.JSONObject;
@@ -12,7 +11,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CataService {
-    private String BASE_URL = "http://192.168.1.72:51316/api/";
+    private String BASE_URL = "http://192.168.1.75:51316/api/";
     private RestTemplate restTemplate = new RestTemplate();
 
     public boolean registrar(Cata cata) {

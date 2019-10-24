@@ -23,6 +23,7 @@ public class Cata implements Serializable {
     private int saborResidual;
 
     private int impresionGlobal;
+
     private  String observaciones;
 
 

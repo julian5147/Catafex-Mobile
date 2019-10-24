@@ -4,7 +4,6 @@
     xmlns:tools="http://schemas.android.com/tools"
     android:layout_width="match_parent"
     android:layout_height="match_parent"
-    android:fitsSystemWindows="true"
     tools:context=".RegistrarCataController">
 
     <ScrollView
@@ -268,18 +267,20 @@
                     android:orientation="vertical">
 
                     <TextView
-                        android:id="@+id/textView25"
+                        android:id="@+id/textViewObservaciones"
                         android:layout_width="match_parent"
                         android:layout_height="wrap_content"
                         android:text="Observaciones" />
 
                     <EditText
-                        android:id="@+id/editText11"
+                        android:id="@+id/editTextObservaciones"
                         android:layout_width="match_parent"
                         android:layout_height="140dp"
                         android:background="@drawable/style_borde"
                         android:gravity="top"
-                        android:scrollbars="vertical" />
+                        android:scrollbars="vertical"
+                        android:maxLines="10"
+                        android:inputType="textNoSuggestions"/>
                 </LinearLayout>
 
                 <Button
