@@ -3,6 +3,7 @@ package com.example.catafex;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 import android.view.View;
@@ -12,8 +13,8 @@ import android.widget.EditText;
 import android.widget.Spinner;
 import android.widget.Toast;
 
-import com.example.Models.Catador;
-import com.example.Remote.CatadorService;
+import com.example.Entities.Catador;
+import com.example.Model.CatadorService;
 
 import java.util.ArrayList;
 import java.util.List;
@@ -74,6 +75,9 @@ public class RegistrarCatador extends AppCompatActivity {
                     Boolean result = new HttpRequestAddCatador().execute(catador).get();
                     if (result) {
                         Toast.makeText(RegistrarCatador.this, "Registrado", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegistrarCatador.this , PerfilCatador.class);
+                        intent.putExtra("catador", catador);
+                        startActivity(intent);
                     } else {
                         Toast.makeText(RegistrarCatador.this, "Faild", Toast.LENGTH_SHORT).show();
                     }

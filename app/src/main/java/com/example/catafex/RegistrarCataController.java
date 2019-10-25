@@ -14,10 +14,8 @@ import android.widget.TextView;
 import android.widget.Toast;
 
 
-import com.example.Models.Cata;
-import com.example.Remote.CataService;
-
-import org.springframework.http.HttpRequest;
+import com.example.Entities.Cata;
+import com.example.Model.CataService;
 
 import java.util.ArrayList;
 import java.util.List;

@@ -14,7 +14,9 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".RegistrarCatador"></activity>
+        <activity android:name=".actualizarCatador"></activity>
+        <activity android:name=".PerfilCatador" />
+        <activity android:name=".RegistrarCatador" />
         <activity android:name=".Principal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
@@ -22,9 +24,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegistrarCataController">
-
-        </activity>
+        <activity android:name=".RegistrarCataController" />
     </application>
 
 </manifest>

@@ -1,5 +1,5 @@
-package com.example.Remote;
-import com.example.Models.Cata;
+package com.example.Model;
+import com.example.Entities.Cata;
 
 import org.json.JSONObject;
 import org.springframework.http.HttpEntity;
