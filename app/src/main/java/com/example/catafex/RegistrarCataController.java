@@ -3,6 +3,7 @@ package com.example.catafex;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
 
+import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
@@ -15,6 +16,9 @@ import android.widget.Toast;
 
 
 import com.example.Entities.Cata;
+import com.example.Entities.Catacion;
+import com.example.Entities.Catador;
+import com.example.Entities.Catas;
 import com.example.Model.CataService;
 
 import java.util.ArrayList;
@@ -26,13 +30,18 @@ public class RegistrarCataController extends AppCompatActivity {
     private List<TextView> numAtributos = new ArrayList<TextView>();
     private EditText editTextObservaciones;
     private Button regitrar;
-    
+    private Catas catas;
+    private Catador catador;
+    private Catacion catacion;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.registrar_cata);
-
+            Intent intent = getIntent();
+            catas = (Catas) intent.getSerializableExtra("cata");
+            catador = (Catador) intent.getSerializableExtra("catador");
+            catacion = (Catacion) intent.getSerializableExtra("catacion");
             seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBarFragancia));
             seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBarAroma));
             seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBarAcidez));
@@ -62,7 +71,7 @@ public class RegistrarCataController extends AppCompatActivity {
                 public void onClick(View view) {
                     try {
                         Cata cata = new Cata();
-                        cata.setCodCatacion("CT-2");
+                        cata.setCodCatacion(catas.getCodCatacion());
                         cata.setFragancia(seekBarsAtributos.get(0).getProgress());
                         cata.setAroma(seekBarsAtributos.get(1).getProgress());
                         cata.setAcidez(seekBarsAtributos.get(2).getProgress());
@@ -76,18 +85,37 @@ public class RegistrarCataController extends AppCompatActivity {
                         Boolean result = new HttpRequestAdd().execute(cata).get();
                         if (result) {
                             Toast.makeText(RegistrarCataController.this, "Cata Registrada", Toast.LENGTH_SHORT).show();
+                            if (catas.getVeces() > 1) {
+                                catas.setVeces(catas.getVeces() - 1);
+                                Intent intent1 = new Intent(RegistrarCataController.this, RegistrarCataController.class);
+                                intent1.putExtra("cata", catas);
+                                intent1.putExtra("catador", catador);
+                                intent1.putExtra("catacion", catacion);
+                                startActivity(intent1);
+                            }
+                            else{
+                                catacion.setCantidad(catas.getVeces()-1);
+                                Boolean resultado = new HttpResquestUpdateCatacion().execute(catacion).get();
+                                if(resultado){
+
+                                    Intent intent2 = new Intent(RegistrarCataController.this,PerfilCatador.class);
+                                    intent2.putExtra("catador",catador);
+                                    startActivity(intent2);
+                                }
+                                else{
+                                    Toast.makeText(RegistrarCataController.this, "Failed", Toast.LENGTH_SHORT).show();
+                                }
+                            }
                         } else {
                             Toast.makeText(RegistrarCataController.this, "Failed", Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
-                        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                        builder.setMessage("Failed");
-
+                        e.printStackTrace();
                     }
 
                 }
             });
-        }catch (Exception e){
+        } catch (Exception e) {
             AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
             builder.setMessage("Failed");
         }
@@ -127,6 +155,20 @@ public class RegistrarCataController extends AppCompatActivity {
         protected Boolean doInBackground(Cata... catas) {
             CataService cataService = new CataService();
             return cataService.registrar(catas[0]);
+        }
+
+        @Override
+        protected void onPostExecute(Boolean aBoolean) {
+            super.onPostExecute(aBoolean);
+        }
+    }
+
+    private class HttpResquestUpdateCatacion extends AsyncTask<Catacion,Void,Boolean>{
+
+        @Override
+        protected Boolean doInBackground(Catacion... catacions) {
+            CataService cataService = new CataService();
+            return cataService.updateCatacion(catacions[0]);
         }
 
         @Override

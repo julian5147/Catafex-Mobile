@@ -46,6 +46,7 @@ public class actualizarCatador extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(actualizarCatador.this, PerfilCatador.class);
+                intent.putExtra("catador",catador);
                 startActivity(intent);
             }
         });

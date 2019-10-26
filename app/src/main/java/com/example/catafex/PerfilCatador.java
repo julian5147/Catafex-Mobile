@@ -12,8 +12,15 @@ import android.widget.Button;
 import android.widget.TextView;
 import android.widget.Toast;
 
+import com.example.Entities.Catacion;
 import com.example.Entities.Catador;
+import com.example.Entities.Catas;
+import com.example.Entities.Panel;
+import com.example.Model.CataService;
 import com.example.Model.CatadorService;
+import com.example.Model.PanelService;
+
+import java.util.List;
 
 public class PerfilCatador extends AppCompatActivity {
 
@@ -25,13 +32,15 @@ public class PerfilCatador extends AppCompatActivity {
     private Catador catador;
     private Button buttonEdit;
     private Button buttonDelete;
+    private Button buttonMisCatas;
+
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_perfil_catador);
 
-        Intent intent = getIntent();
+        final Intent intent = getIntent();
         catador = (Catador) intent.getSerializableExtra("catador");
         textViewNombre = (TextView) findViewById(R.id.ViewNombre);
         textViewNombre.setText(catador.getNombre());
@@ -47,11 +56,12 @@ public class PerfilCatador extends AppCompatActivity {
         buttonEdit = (Button) findViewById(R.id.buttonEditar);
 
         buttonDelete = (Button) findViewById(R.id.buttonDelete);
+        buttonMisCatas = (Button) findViewById(R.id.buttonMisCatas);
 
         buttonEdit.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(PerfilCatador.this,actualizarCatador.class);
+                Intent intent = new Intent(PerfilCatador.this, actualizarCatador.class);
                 intent.putExtra("catador", catador);
                 startActivity(intent);
             }
@@ -95,6 +105,14 @@ public class PerfilCatador extends AppCompatActivity {
                 }
             }
         });
+        buttonMisCatas.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent1 = new Intent(PerfilCatador.this, MisCatas.class);
+                intent1.putExtra("catador", catador);
+                startActivity(intent1);
+            }
+        });
     }
 
     private class HttpResquestDelete extends AsyncTask<String, Void, Boolean> {
@@ -110,4 +128,6 @@ public class PerfilCatador extends AppCompatActivity {
             super.onPostExecute(aBoolean);
         }
     }
+
+
 }

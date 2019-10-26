@@ -13,9 +13,24 @@
         android:orientation="vertical"
         android:layout_margin="100dp">
 
+        <EditText
+            android:id="@+id/editTextIngresar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:inputType="number"
+            android:text="1053862207"
+            android:gravity="center"
+            android:background="@drawable/style_borde"/>
+
+        <Button
+            android:id="@+id/buttonIngresar"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Ingresar" />
+
         <Button
             android:id="@+id/buttonRegistrarCatador"
-            android:layout_width="wrap_content"
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
             android:text="Registrarse" />
     </LinearLayout>

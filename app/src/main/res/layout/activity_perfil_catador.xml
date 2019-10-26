@@ -121,7 +121,7 @@
 
         <LinearLayout
             android:layout_width="match_parent"
-            android:layout_height="match_parent"
+            android:layout_height="wrap_content"
             android:orientation="horizontal">
 
             <Button
@@ -137,7 +137,14 @@
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
                 android:text="Eliminar" />
+
         </LinearLayout>
+
+        <Button
+            android:id="@+id/buttonMisCatas"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:text="Mis Catas" />
     </LinearLayout>
 
 </androidx.constraintlayout.widget.ConstraintLayout>
