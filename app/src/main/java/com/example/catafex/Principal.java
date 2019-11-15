@@ -11,6 +11,7 @@ import android.widget.EditText;
 
 import com.example.Entities.Catador;
 import com.example.Model.CatadorService;
+import com.example.catafex.ui.home.HomeFragment;
 
 import java.util.concurrent.ExecutionException;
 
@@ -43,7 +44,7 @@ public class Principal extends AppCompatActivity {
                 try {
                     Catador catador = new HttpResquestGet().execute(editTextCedula.getText().toString()).get();
                     if(catador !=null){
-                        Intent intent = new Intent(Principal.this,PerfilCatador.class);
+                        Intent intent = new Intent(Principal.this, Perfil.class);
                         intent.putExtra("catador" , catador);
                         startActivity(intent);
                     }

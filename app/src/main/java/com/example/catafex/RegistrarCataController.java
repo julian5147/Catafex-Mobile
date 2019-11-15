@@ -92,13 +92,14 @@ public class RegistrarCataController extends AppCompatActivity {
                                 intent1.putExtra("catador", catador);
                                 intent1.putExtra("catacion", catacion);
                                 startActivity(intent1);
+                                finish();
                             }
                             else{
                                 catacion.setCantidad(catas.getVeces()-1);
                                 Boolean resultado = new HttpResquestUpdateCatacion().execute(catacion).get();
                                 if(resultado){
 
-                                    Intent intent2 = new Intent(RegistrarCataController.this,PerfilCatador.class);
+                                    Intent intent2 = new Intent(RegistrarCataController.this,Perfil.class);
                                     intent2.putExtra("catador",catador);
                                     startActivity(intent2);
                                 }

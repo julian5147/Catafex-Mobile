@@ -6,6 +6,7 @@ import androidx.appcompat.app.AppCompatActivity;
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.Button;
@@ -32,11 +33,12 @@ public class RegistrarCatador extends AppCompatActivity {
 
     private Button buttonGuardar;
 
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_registrar_catador);
-
+        getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         spinnerNivelExperiencia = (Spinner) findViewById(R.id.spinnerNivelExperiencia);
         niveles.add("Experimentado");
         niveles.add("Semi-Experimentado");
@@ -61,6 +63,8 @@ public class RegistrarCatador extends AppCompatActivity {
 
         buttonGuardar = (Button) findViewById(R.id.buttonGuardarCatador);
 
+
+
         buttonGuardar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
@@ -75,9 +79,10 @@ public class RegistrarCatador extends AppCompatActivity {
                     Boolean result = new HttpRequestAddCatador().execute(catador).get();
                     if (result) {
                         Toast.makeText(RegistrarCatador.this, "Registrado", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RegistrarCatador.this , PerfilCatador.class);
+                        Intent intent = new Intent(RegistrarCatador.this , Perfil.class);
                         intent.putExtra("catador", catador);
                         startActivity(intent);
+                        finish();
                     } else {
                         Toast.makeText(RegistrarCatador.this, "Faild", Toast.LENGTH_SHORT).show();
                     }
@@ -103,5 +108,14 @@ public class RegistrarCatador extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
         }
+    }
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        switch (item.getItemId()) {
+            case android.R.id.home:
+                finish();
+                return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }

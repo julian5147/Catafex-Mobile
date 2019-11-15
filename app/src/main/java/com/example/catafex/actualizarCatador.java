@@ -45,7 +45,7 @@ public class actualizarCatador extends AppCompatActivity {
         buttonCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                Intent intent = new Intent(actualizarCatador.this, PerfilCatador.class);
+                Intent intent = new Intent(actualizarCatador.this, Perfil.class);
                 intent.putExtra("catador",catador);
                 startActivity(intent);
             }
@@ -60,7 +60,7 @@ public class actualizarCatador extends AppCompatActivity {
                     catador.setContrasena(editTextContraseña.getText().toString());
                     boolean result = new HttpResquestUpdate().execute(catador).get();
                     if(result){
-                        Intent intent = new Intent(actualizarCatador.this, PerfilCatador.class);
+                        Intent intent = new Intent(actualizarCatador.this, Perfil.class);
                         intent.putExtra("catador" , catador);
                         startActivity(intent);
                     }

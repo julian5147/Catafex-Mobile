@@ -9,116 +9,114 @@
     <LinearLayout
         android:layout_width="match_parent"
         android:layout_height="match_parent"
-        android:orientation="vertical"
-        android:layout_margin="30dp">
+        android:layout_margin="30dp"
+        android:orientation="vertical">
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="15dp">
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textViewName"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Nombre"
-                />
+                android:text="@string/title_nombre" />
 
             <EditText
                 android:id="@+id/editTextName"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/style_borde"
                 android:ems="10"
-                android:inputType="textPersonName|textNoSuggestions"
-                android:background="@drawable/style_borde"/>
+                android:inputType="textPersonName|textNoSuggestions" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="15dp">
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textViewCedula"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Cédula" />
+                android:text="@string/title_cedula" />
 
             <EditText
                 android:id="@+id/editTextCedula"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/style_borde"
                 android:ems="10"
-                android:inputType="number"
-                android:background="@drawable/style_borde"/>
+                android:inputType="number" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="15dp">
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textViewCorreo"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Correo" />
+                android:text="@string/title_correo" />
 
             <EditText
                 android:id="@+id/editTextCorreo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/style_borde"
                 android:ems="10"
-                android:inputType="textEmailAddress"
-                android:background="@drawable/style_borde"/>
+                android:inputType="textEmailAddress" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="15dp">
+            android:layout_marginBottom="15dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textViewContraseña"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Contaseña" />
+                android:text="@string/title_contraseña" />
 
             <EditText
                 android:id="@+id/editTextContraseña"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/style_borde"
                 android:ems="10"
-                android:inputType="textPassword"
-                android:background="@drawable/style_borde"/>
+                android:inputType="textPassword" />
         </LinearLayout>
 
         <LinearLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:orientation="horizontal"
-            android:layout_marginBottom="40dp">
+            android:layout_marginBottom="40dp"
+            android:orientation="horizontal">
 
             <TextView
                 android:id="@+id/textViewExperiencia"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Nivel Experiencia" />
+                android:text="@string/title_nivel_exp" />
 
             <Spinner
                 android:id="@+id/spinnerNivelExperiencia"
                 android:layout_width="match_parent"
                 android:layout_height="wrap_content"
-                android:layout_weight="1"
-                />
+                android:layout_weight="1" />
         </LinearLayout>
 
         <LinearLayout
@@ -130,25 +128,31 @@
                 android:id="@+id/textViewCodigo"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Código" />
+                android:text="@string/title_codigo" />
 
             <EditText
                 android:id="@+id/editTextCodigo"
                 android:layout_width="wrap_content"
                 android:layout_height="wrap_content"
                 android:layout_weight="1"
+                android:background="@drawable/style_borde"
                 android:ems="10"
-                android:inputType="number"
-                android:background="@drawable/style_borde"/>
+                android:inputType="number" />
         </LinearLayout>
 
-        <Button
-            android:id="@+id/buttonGuardarCatador"
-            android:layout_width="100dp"
+        <LinearLayout
+            android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="right"
-            android:text="Guardar"
-            android:layout_marginTop="40dp"/>
+            android:orientation="horizontal"
+            android:layout_marginTop="50dp"
+            android:gravity="right">
+
+            <Button
+                android:id="@+id/buttonGuardarCatador"
+                android:layout_width="100dp"
+                android:layout_height="wrap_content"
+                android:text="Registrar" />
+        </LinearLayout>
 
     </LinearLayout>
 

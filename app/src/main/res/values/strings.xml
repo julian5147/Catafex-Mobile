@@ -3,9 +3,18 @@
     <string name="title_activity_perfil_catador">PerfilCatador</string>
     <string name="navigation_drawer_open">Open navigation drawer</string>
     <string name="navigation_drawer_close">Close navigation drawer</string>
-    <string name="nav_header_title">Android Studio</string>
-    <string name="nav_header_subtitle">android.studio@android.com</string>
     <string name="nav_header_desc">Navigation header</string>
-    <string name="action_settings">Settings</string>
+    <string name="action_actualizar">Actualizar Datos</string>
+    <string name="action_eliminar">Eliminar mi cuenta</string>
+    <string name="action_cerrar">Cerrar sesión</string>
+    <string name="title_activity_perfil">Perfil</string>
+    <string name="title_nombre">Nombre</string>
+    <string name="title_cedula">Cédula</string>
+    <string name="title_codigo">Código</string>
+    <string name="title_nivel_exp">Nivel Experiencia</string>
+    <string name="title_contraseña">Contraseña</string>
+    <string name="title_correo">Correo</string>
+    <string name="menu_home">Home</string>
+    <string name="menu_catas">Mis Catas</string>
 
 </resources>

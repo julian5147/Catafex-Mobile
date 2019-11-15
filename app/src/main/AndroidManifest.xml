@@ -14,10 +14,16 @@
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
         android:theme="@style/AppTheme">
-        <activity android:name=".MisCatas"></activity>
-        <activity android:name=".actualizarCatador" />
-        <activity android:name=".PerfilCatador" />
-        <activity android:name=".RegistrarCatador" />
+        <activity
+            android:name=".Perfil"
+            android:label="@string/title_activity_perfil"
+            android:theme="@style/AppTheme.NoActionBar">
+
+        </activity>
+        <activity android:name=".actualizarCatador"
+            android:label="@string/action_actualizar" />
+        <activity android:name=".RegistrarCatador"
+            android:label="Registro"/>
         <activity android:name=".Principal">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />

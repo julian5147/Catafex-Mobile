@@ -1,14 +1,17 @@
-package com.example.catafex;
-
-import androidx.appcompat.app.AppCompatActivity;
+package com.example.catafex.ui.misCatas;
 
 import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
+import android.view.LayoutInflater;
 import android.view.View;
+import android.view.ViewGroup;
 import android.widget.AdapterView;
 import android.widget.ListView;
 import android.widget.Toast;
+
+import androidx.annotation.NonNull;
+import androidx.fragment.app.Fragment;
 
 import com.example.Entities.Catacion;
 import com.example.Entities.Catador;
@@ -17,11 +20,13 @@ import com.example.Entities.Panel;
 import com.example.Model.CataService;
 import com.example.Model.PanelService;
 import com.example.adapters.MisCatasAdapter;
+import com.example.catafex.R;
+import com.example.catafex.RegistrarCataController;
 
 import java.util.ArrayList;
 import java.util.List;
 
-public class MisCatas extends AppCompatActivity {
+public class MisCatasFragment extends Fragment {
 
     private ListView listViewMisCatas;
     private List<Catas> misCatas;
@@ -29,16 +34,15 @@ public class MisCatas extends AppCompatActivity {
     private Catas cata;
     List<Catacion> cataciones;
 
-    @Override
-    protected void onCreate(Bundle savedInstanceState) {
+    public View onCreateView(@NonNull LayoutInflater inflater,
+                             ViewGroup container, Bundle savedInstanceState) {
+
+        View root = inflater.inflate(R.layout.fragment_miscatas, container, false);
         try {
-            super.onCreate(savedInstanceState);
-            setContentView(R.layout.activity_mis_catas);
             cata = new Catas();
             misCatas = new ArrayList<Catas>();
-            final Intent intent = getIntent();
-            catador = (Catador) intent.getSerializableExtra("catador");
-            listViewMisCatas = (ListView) findViewById(R.id.listViewMisCatas);
+            catador = (Catador) getArguments().getSerializable("catador");
+            listViewMisCatas = (ListView) root.findViewById(R.id.listViewMisCatas);
             cataciones = new HttpResquestGetCataciones().execute(catador.getCodigo()).get();
             if (cataciones != null) {
                 for (Catacion c : cataciones) {
@@ -51,28 +55,26 @@ public class MisCatas extends AppCompatActivity {
                             cata.setCodCatacion(c.getCodCatacion());
                             misCatas.add(cata);
                         } else {
-                            Toast.makeText(MisCatas.this, "Failed", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
                         }
-                    }
-                    else{
-                        Toast.makeText(MisCatas.this, "No hay Catas Asignadas", Toast.LENGTH_SHORT).show();
+                    } else {
+                        Toast.makeText(getContext(), "No hay Catas Asignadas", Toast.LENGTH_SHORT).show();
                     }
                 }
             } else {
-                Toast.makeText(MisCatas.this, "No hay Catas Asignadas", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "No hay Catas Asignadas", Toast.LENGTH_SHORT).show();
             }
             if (misCatas != null) {
-                listViewMisCatas.setAdapter(new MisCatasAdapter(getApplicationContext(), misCatas));
-            }
-            else{
-                Toast.makeText(MisCatas.this, "No hay Catas Asignadas", Toast.LENGTH_SHORT).show();
+                listViewMisCatas.setAdapter(new MisCatasAdapter(getContext(), misCatas));
+            } else {
+                Toast.makeText(getContext(), "No hay Catas Asignadas", Toast.LENGTH_SHORT).show();
             }
             listViewMisCatas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
                 public void onItemClick(AdapterView<?> adapterView, View view, int i, long l) {
                     cata = misCatas.get(i);
-                    Catacion catacion= cataciones.get(i);
-                    Intent intent1 = new Intent(MisCatas.this, RegistrarCataController.class);
+                    Catacion catacion = cataciones.get(i);
+                    Intent intent1 = new Intent(getContext(), RegistrarCataController.class);
                     intent1.putExtra("cata", cata);
                     intent1.putExtra("catador", catador);
                     intent1.putExtra("catacion", catacion);
@@ -82,6 +84,7 @@ public class MisCatas extends AppCompatActivity {
         } catch (Exception e) {
             e.printStackTrace();
         }
+        return root;
     }
 
     private class HttpResquestGetCataciones extends AsyncTask<String, Void, List<Catacion>> {

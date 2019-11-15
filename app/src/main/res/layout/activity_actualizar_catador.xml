@@ -22,7 +22,7 @@
                 android:id="@+id/textViewName"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Nombre"
+                android:text="@string/title_nombre"
                 />
 
             <EditText
@@ -45,7 +45,7 @@
                 android:id="@+id/textViewCorreo"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Correo" />
+                android:text="@string/title_correo" />
 
             <EditText
                 android:id="@+id/TextCorreo"
@@ -67,7 +67,7 @@
                 android:id="@+id/textViewContraseña"
                 android:layout_width="130dp"
                 android:layout_height="wrap_content"
-                android:text="Contaseña" />
+                android:text="@string/title_contraseña" />
 
             <EditText
                 android:id="@+id/TextContraseña"
