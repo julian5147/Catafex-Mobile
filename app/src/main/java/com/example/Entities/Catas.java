@@ -6,13 +6,15 @@ import java.sql.Time;
 
 public class Catas implements Serializable {
 
-    String codCatacion;
+    String codCafe;
+
+    int vezCatada;
+
+    String hora;
+
+    String fecha;
 
     String tipoCafe;
-
-    Time hora;
-
-    int veces;
 
     public String getTipoCafe() {
         return tipoCafe;
@@ -22,27 +24,35 @@ public class Catas implements Serializable {
         this.tipoCafe = tipoCafe;
     }
 
-    public Time getHora() {
+    public String getHora() {
         return hora;
     }
 
-    public void setHora(Time hora) {
+    public void setHora(String hora) {
         this.hora = hora;
     }
 
-    public int getVeces() {
-        return veces;
+    public int getVezCatada() {
+        return vezCatada;
     }
 
-    public void setVeces(int veces) {
-        this.veces = veces;
+    public void setVezCatada(int vezCatada) {
+        this.vezCatada = vezCatada;
     }
 
-    public String getCodCatacion() {
-        return codCatacion;
+    public String getCodCafe() {
+        return codCafe;
     }
 
-    public void setCodCatacion(String codCatacion) {
-        this.codCatacion = codCatacion;
+    public void setCodCafe(String codCafe) {
+        this.codCafe = codCafe;
+    }
+
+    public String getFecha() {
+        return fecha;
+    }
+
+    public void setFecha(String fecha) {
+        this.fecha = fecha;
     }
 }

@@ -7,7 +7,7 @@ import org.springframework.http.HttpMethod;
 import org.springframework.web.client.RestTemplate;
 
 public class PanelService {
-    private String BASE_URL = "http://192.168.1.75:51316/api/ApiGestionarPanel";
+    private String BASE_URL = "http://192.168.137.190:51316/api/ApiGestionarPanel";
     private RestTemplate restTemplate = new RestTemplate();
 
     public Panel obtenerPanel(String codPanel) {

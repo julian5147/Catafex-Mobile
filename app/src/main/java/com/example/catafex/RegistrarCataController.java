@@ -71,7 +71,7 @@ public class RegistrarCataController extends AppCompatActivity {
                 public void onClick(View view) {
                     try {
                         Cata cata = new Cata();
-                        cata.setCodCatacion(catas.getCodCatacion());
+                        cata.setCodCatacion(catas.getCodCafe());
                         cata.setFragancia(seekBarsAtributos.get(0).getProgress());
                         cata.setAroma(seekBarsAtributos.get(1).getProgress());
                         cata.setAcidez(seekBarsAtributos.get(2).getProgress());
@@ -85,8 +85,8 @@ public class RegistrarCataController extends AppCompatActivity {
                         Boolean result = new HttpRequestAdd().execute(cata).get();
                         if (result) {
                             Toast.makeText(RegistrarCataController.this, "Cata Registrada", Toast.LENGTH_SHORT).show();
-                            if (catas.getVeces() > 1) {
-                                catas.setVeces(catas.getVeces() - 1);
+                            if (catas.getVezCatada() > 1) {
+                                catas.setVezCatada(catas.getVezCatada() - 1);
                                 Intent intent1 = new Intent(RegistrarCataController.this, RegistrarCataController.class);
                                 intent1.putExtra("cata", catas);
                                 intent1.putExtra("catador", catador);
@@ -95,7 +95,7 @@ public class RegistrarCataController extends AppCompatActivity {
                                 finish();
                             }
                             else{
-                                catacion.setCantidad(catas.getVeces()-1);
+                                catacion.setCantidad(catas.getVezCatada()-1);
                                 Boolean resultado = new HttpResquestUpdateCatacion().execute(catacion).get();
                                 if(resultado){
 

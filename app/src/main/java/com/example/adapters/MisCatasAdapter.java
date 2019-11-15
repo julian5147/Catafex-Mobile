@@ -34,9 +34,14 @@ public class MisCatasAdapter extends ArrayAdapter<Catas> {
         TextView textViewCafe = (TextView) view.findViewById(R.id.textViewCafe);
         textViewCafe.setText(catas.getTipoCafe());
         TextView textViewHora = (TextView) view.findViewById(R.id.textViewHora);
-        textViewHora.setText(catas.getHora().toString());
+        textViewHora.setText(catas.getHora());
         TextView textViewVeces = (TextView) view.findViewById(R.id.textViewVeces);
-        textViewVeces.setText(String.valueOf(catas.getVeces()));
+        textViewVeces.setText(String.valueOf(catas.getVezCatada()));
+        TextView textViewFecha = (TextView) view.findViewById(R.id.textViewFecha);
+        textViewFecha.setText(String.valueOf(catas.getFecha()));
+        TextView textViewCodCafe = (TextView) view.findViewById(R.id.textViewCodCafe);
+        textViewCodCafe.setText(String.valueOf(catas.getCodCafe()));
+
         return view;
     }
 }

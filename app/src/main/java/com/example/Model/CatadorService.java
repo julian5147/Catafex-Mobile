@@ -13,7 +13,7 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CatadorService {
-    private String BASE_URL = "http://192.168.1.75:51316/api/ApiRegistrarCatador";
+    private String BASE_URL = "http://192.168.137.69:51316/api/ApiRegistrarCatador";
     private RestTemplate restTemplate = new RestTemplate();
 
     public boolean registrarCatador(Catador catador) {

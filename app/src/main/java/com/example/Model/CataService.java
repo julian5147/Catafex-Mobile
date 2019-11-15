@@ -1,6 +1,7 @@
 package com.example.Model;
 import com.example.Entities.Cata;
 import com.example.Entities.Catacion;
+import com.example.Entities.Catas;
 
 import org.json.JSONObject;
 import org.springframework.core.ParameterizedTypeReference;
@@ -15,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CataService {
-    private String BASE_URL = "http://192.168.1.75:51316/api/ApiRegistrarCata";
+    private String BASE_URL = "http://192.168.137.69:51316/api/ApiRegistrarCata";
     private RestTemplate restTemplate = new RestTemplate();
 
     public boolean registrar(Cata cata) {
@@ -72,6 +73,20 @@ public class CataService {
             return true;
         } catch (Exception e) {
             return false;
+        }
+    }
+
+    public Catas obtenerCata(String codCatacion) {
+        try {
+            return restTemplate.exchange(
+                    BASE_URL + "/ObtenerInformacionCatacion/" + codCatacion,
+                    HttpMethod.GET, null,
+                    new ParameterizedTypeReference<Catas>() {
+                    }
+            ).getBody();
+        } catch (Exception e) {
+            e.printStackTrace();
+            return null;
         }
     }
 }

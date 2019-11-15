@@ -34,7 +34,6 @@ public class HomeFragment extends Fragment {
         View root = inflater.inflate(R.layout.fragment_home, container, false);
         if(getArguments()!=null) {
             catador = (Catador) getArguments().getSerializable("catador");
-            System.out.println(catador.getCedula());
             textViewNombre = (TextView) root.findViewById(R.id.ViewNombreCatador);
             textViewNombre.setText(catador.getNombre());
             textViewCedula = (TextView) root.findViewById(R.id.ViewCedulaCatador);

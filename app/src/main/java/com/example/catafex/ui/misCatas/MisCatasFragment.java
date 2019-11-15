@@ -39,20 +39,18 @@ public class MisCatasFragment extends Fragment {
 
         View root = inflater.inflate(R.layout.fragment_miscatas, container, false);
         try {
-            cata = new Catas();
             misCatas = new ArrayList<Catas>();
-            catador = (Catador) getArguments().getSerializable("catador");
-            listViewMisCatas = (ListView) root.findViewById(R.id.listViewMisCatas);
-            cataciones = new HttpResquestGetCataciones().execute(catador.getCodigo()).get();
+            if (getArguments() != null) {
+                catador = (Catador) getArguments().getSerializable("catador");
+                listViewMisCatas = (ListView) root.findViewById(R.id.listViewMisCatas);
+                cataciones = new HttpResquestGetCataciones().execute(catador.getCodigo()).get();
+            }
             if (cataciones != null) {
                 for (Catacion c : cataciones) {
                     if (c.getCantidad() > 0) {
-                        Panel panel = new HttpResquestGetPanel().execute(c.getCodPanel()).get();
-                        if (panel != null) {
-                            cata.setTipoCafe(panel.getTipoCafe());
-                            cata.setHora(panel.getHora());
-                            cata.setVeces(c.getCantidad());
-                            cata.setCodCatacion(c.getCodCatacion());
+                        cata = new HttpResquestGetCatas().execute(c.getCodCatacion()).get();
+                        System.out.println(cata);
+                        if (cata != null) {
                             misCatas.add(cata);
                         } else {
                             Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
@@ -101,17 +99,17 @@ public class MisCatasFragment extends Fragment {
         }
     }
 
-    private class HttpResquestGetPanel extends AsyncTask<String, Void, Panel> {
+    private class HttpResquestGetCatas extends AsyncTask<String, Void, Catas> {
 
         @Override
-        protected Panel doInBackground(String... strings) {
-            PanelService panelService = new PanelService();
-            return panelService.obtenerPanel(strings[0]);
+        protected Catas doInBackground(String... strings) {
+            CataService cataService = new CataService();
+            return cataService.obtenerCata(strings[0]);
         }
 
         @Override
-        protected void onPostExecute(Panel panel) {
-            super.onPostExecute(panel);
+        protected void onPostExecute(Catas catas) {
+            super.onPostExecute(catas);
         }
     }
 }
