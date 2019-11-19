@@ -16,7 +16,7 @@ import java.util.List;
 import java.util.Map;
 
 public class CataService {
-    private String BASE_URL = "http://192.168.137.69:51316/api/ApiRegistrarCata";
+    private String BASE_URL = "http://192.168.1.75:51316/api/ApiRegistrarCata";
     private RestTemplate restTemplate = new RestTemplate();
 
     public boolean registrar(Cata cata) {

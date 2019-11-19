@@ -11,22 +11,35 @@
         android:layout_height="match_parent"
         android:gravity="center|bottom"
         android:orientation="vertical"
-        android:layout_margin="100dp">
+        android:layout_margin="30dp">
 
         <EditText
-            android:id="@+id/editTextIngresar"
-            android:layout_width="match_parent"
+            android:id="@+id/editTextUsuario"
+            android:layout_width="300dp"
             android:layout_height="wrap_content"
-            android:inputType="number"
-            android:text="1053862207"
-            android:gravity="center"
-            android:background="@drawable/style_borde"/>
+            android:ems="10"
+            android:gravity="bottom"
+            android:inputType="textPersonName"
+            android:hint="Correo"
+            android:layout_marginTop="50dp"/>
+
+        <EditText
+            android:id="@+id/editTextContrasena"
+            android:layout_width="300dp"
+            android:layout_height="wrap_content"
+            android:ems="10"
+            android:gravity="bottom"
+            android:inputType="textPassword"
+            android:hint="Contraseña"
+            android:freezesText="true"
+            android:layout_marginTop="10dp"/>
+
 
         <Button
             android:id="@+id/buttonIngresar"
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:text="Ingresar" />
+            android:text="Iniciar Sesión" />
 
         <Button
             android:id="@+id/buttonRegistrarCatador"

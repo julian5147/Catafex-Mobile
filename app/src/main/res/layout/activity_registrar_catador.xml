@@ -31,7 +31,8 @@
                 android:layout_weight="1"
                 android:background="@drawable/style_borde"
                 android:ems="10"
-                android:inputType="textPersonName|textNoSuggestions" />
+                android:freezesText="true"
+                android:inputType="textPersonName" />
         </LinearLayout>
 
         <LinearLayout
