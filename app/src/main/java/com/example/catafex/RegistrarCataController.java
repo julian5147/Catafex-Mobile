@@ -10,6 +10,7 @@ import android.os.Bundle;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
+import android.widget.ListView;
 import android.widget.SeekBar;
 import android.widget.TextView;
 import android.widget.Toast;
@@ -20,92 +21,85 @@ import com.example.Entities.Catacion;
 import com.example.Entities.Catador;
 import com.example.Entities.Catas;
 import com.example.Model.CataService;
+import com.example.adapters.RegistrarCataAdapter;
 
 import java.util.ArrayList;
 import java.util.List;
 
 public class RegistrarCataController extends AppCompatActivity {
 
-    private List<SeekBar> seekBarsAtributos = new ArrayList<SeekBar>();
-    private List<TextView> numAtributos = new ArrayList<TextView>();
+    private List<SeekBar> seekBarsAtributos;
+    private List<TextView> numAtributos;
     private EditText editTextObservaciones;
-    private Button regitrar;
     private Catas catas;
     private Catador catador;
     private Catacion catacion;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.registrar_cata);
+            seekBarsAtributos = new ArrayList<>();
+            numAtributos = new ArrayList<>();
             Intent intent = getIntent();
             catas = (Catas) intent.getSerializableExtra("cata");
             catador = (Catador) intent.getSerializableExtra("catador");
             catacion = (Catacion) intent.getSerializableExtra("catacion");
-            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBarFragancia));
-            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBarAroma));
-            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBarAcidez));
-            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBarAmargo));
-            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBarCuerpo));
-            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBarRancidez));
-            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBarResidual));
-            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBarGlobal));
+            ListView listViewRegistrarCata = findViewById(R.id.listViewRegistrarCata);
+            listViewRegistrarCata.setItemsCanFocus(true);
+            RegistrarCataAdapter registrarCataAdapter = new RegistrarCataAdapter(RegistrarCataController.this, catas.getAtributos());
+            listViewRegistrarCata.setAdapter(registrarCataAdapter);
+            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBar1));
+            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBar2));
+            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBar3));
+            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBar4));
+            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBar5));
+            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBar6));
+            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBar7));
+            seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBar8));
 
-            numAtributos.add((TextView) findViewById(R.id.numFragancia));
-            numAtributos.add((TextView) findViewById(R.id.numAroma));
-            numAtributos.add((TextView) findViewById(R.id.numAcidez));
-            numAtributos.add((TextView) findViewById(R.id.numAmargo));
-            numAtributos.add((TextView) findViewById(R.id.numCuerpo));
-            numAtributos.add((TextView) findViewById(R.id.numRancidez));
-            numAtributos.add((TextView) findViewById(R.id.numResidual));
-            numAtributos.add((TextView) findViewById(R.id.numGlobal));
+            numAtributos.add((TextView) findViewById(R.id.num1));
+            numAtributos.add((TextView) findViewById(R.id.num2));
+            numAtributos.add((TextView) findViewById(R.id.num3));
+            numAtributos.add((TextView) findViewById(R.id.num4));
+            numAtributos.add((TextView) findViewById(R.id.num5));
+            numAtributos.add((TextView) findViewById(R.id.num6));
+            numAtributos.add((TextView) findViewById(R.id.num1));
+            numAtributos.add((TextView) findViewById(R.id.num8));
 
-            editTextObservaciones = (EditText) findViewById(R.id.editTextObservaciones);
+            editTextObservaciones = findViewById(R.id.editTextObservaciones);
 
-            regitrar = (Button) findViewById(R.id.buttonRegistrar);
-
+            Button regitrar = findViewById(R.id.buttonRegistrar);
+            hacerVisible(catas.getAtributos());
             obtenerSeekBar();
 
             regitrar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     try {
-                        Cata cata = new Cata();
-                        cata.setCodCatacion(catas.getCodCafe());
-                        cata.setFragancia(seekBarsAtributos.get(0).getProgress());
-                        cata.setAroma(seekBarsAtributos.get(1).getProgress());
-                        cata.setAcidez(seekBarsAtributos.get(2).getProgress());
-                        cata.setAmargo(seekBarsAtributos.get(3).getProgress());
-                        cata.setCuerpo(seekBarsAtributos.get(4).getProgress());
-                        cata.setRancidez(seekBarsAtributos.get(5).getProgress());
-                        cata.setSaborResidual(seekBarsAtributos.get(6).getProgress());
-                        cata.setImpresionGlobal(seekBarsAtributos.get(7).getProgress());
-                        cata.setObservaciones(editTextObservaciones.getText().toString());
-                        System.out.println(editTextObservaciones.getText().toString());
-                        Boolean result = new HttpRequestAdd().execute(cata).get();
+                        Boolean result = new HttpRequestAdd().execute(obtenerValoresCata(catas.getAtributos())).get();
                         if (result) {
-                            Toast.makeText(RegistrarCataController.this, "Cata Registrada", Toast.LENGTH_SHORT).show();
-                            if (catas.getVezCatada() > 1) {
-                                catas.setVezCatada(catas.getVezCatada() - 1);
-                                Intent intent1 = new Intent(RegistrarCataController.this, RegistrarCataController.class);
-                                intent1.putExtra("cata", catas);
-                                intent1.putExtra("catador", catador);
-                                intent1.putExtra("catacion", catacion);
-                                startActivity(intent1);
-                                finish();
-                            }
-                            else{
-                                catacion.setCantidad(catas.getVezCatada()-1);
-                                Boolean resultado = new HttpResquestUpdateCatacion().execute(catacion).get();
-                                if(resultado){
-
-                                    Intent intent2 = new Intent(RegistrarCataController.this,Perfil.class);
-                                    intent2.putExtra("catador",catador);
+                            Toast.makeText(RegistrarCataController.this, "Cata # " + (catas.getVezCatada() - (catacion.getCantidad() - 1)) + " Registrada - faltan " + (catacion.getCantidad() - 1) + " catas", Toast.LENGTH_SHORT).show();
+                            //catas.setVezCatada(catas.getVezCatada() - 1);
+                            catacion.setCantidad(catacion.getCantidad() - 1);
+                            Boolean resultado = new HttpResquestUpdateCatacion().execute(catacion).get();
+                            if (resultado) {
+                                if (catacion.getCantidad() == 0) {
+                                    Intent intent2 = new Intent(RegistrarCataController.this, Perfil.class);
+                                    intent2.putExtra("catador", catador);
                                     startActivity(intent2);
+                                    finish();
+                                } else {
+                                    Intent intent1 = new Intent(RegistrarCataController.this, RegistrarCataController.class);
+                                    intent1.putExtra("cata", catas);
+                                    intent1.putExtra("catador", catador);
+                                    intent1.putExtra("catacion", catacion);
+                                    startActivity(intent1);
+                                    finish();
                                 }
-                                else{
-                                    Toast.makeText(RegistrarCataController.this, "Failed", Toast.LENGTH_SHORT).show();
-                                }
+                            } else {
+                                Toast.makeText(RegistrarCataController.this, "Failed", Toast.LENGTH_SHORT).show();
                             }
                         } else {
                             Toast.makeText(RegistrarCataController.this, "Failed", Toast.LENGTH_SHORT).show();
@@ -113,7 +107,6 @@ public class RegistrarCataController extends AppCompatActivity {
                     } catch (Exception e) {
                         e.printStackTrace();
                     }
-
                 }
             });
         } catch (Exception e) {
@@ -122,7 +115,7 @@ public class RegistrarCataController extends AppCompatActivity {
         }
     }
 
-    public void obtenerSeekBar() {
+    private void obtenerSeekBar() {
         for (int i = 0; i < seekBarsAtributos.size(); i++) {
 
             numAtributos.get(i).setText("" + seekBarsAtributos.get(i).getProgress());
@@ -150,7 +143,53 @@ public class RegistrarCataController extends AppCompatActivity {
 
     }
 
-    private class HttpRequestAdd extends AsyncTask<Cata, Void, Boolean> {
+    private void hacerVisible(List<String> atributos) {
+        for (int i = 0; i < atributos.size(); i++) {
+            seekBarsAtributos.get(i).setVisibility(View.VISIBLE);
+            numAtributos.get(i).setVisibility(View.VISIBLE);
+        }
+    }
+
+    private Cata obtenerValoresCata(List<String> atributos) {
+        Cata cata = new Cata();
+        cata.setCodCata(catacion.getCodCatacion());
+        cata.setObservaciones(editTextObservaciones.getText().toString());
+        for (int i = 0; i < atributos.size(); i++) {
+            switch (atributos.get(i)) {
+                case "AROMA":
+                    cata.setAroma(seekBarsAtributos.get(i).getProgress());
+                    break;
+                case "FRAGANCIA":
+                    cata.setFragancia(seekBarsAtributos.get(i).getProgress());
+                    break;
+                case "ACIDEZ":
+                    cata.setAcidez(seekBarsAtributos.get(i).getProgress());
+                    break;
+                case "AMARGO":
+                    cata.setAmargo(seekBarsAtributos.get(i).getProgress());
+                    break;
+                case "CUERPO":
+                    cata.setCuerpo(seekBarsAtributos.get(i).getProgress());
+                    break;
+                case "RANCIDEZ":
+                    cata.setRancidez(seekBarsAtributos.get(i).getProgress());
+                    break;
+                case "SABOR_RESIDUAL":
+                    cata.setSaborResidual(seekBarsAtributos.get(i).getProgress());
+                    break;
+                case "IMPRESION_GLOBAL":
+                    cata.setImpresionGlobal(seekBarsAtributos.get(i).getProgress());
+                    break;
+                case "DULCE":
+                    cata.setDulce(seekBarsAtributos.get(i).getProgress());
+                    break;
+            }
+
+        }
+        return cata;
+    }
+
+    private static class HttpRequestAdd extends AsyncTask<Cata, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(Cata... catas) {
@@ -164,7 +203,7 @@ public class RegistrarCataController extends AppCompatActivity {
         }
     }
 
-    private class HttpResquestUpdateCatacion extends AsyncTask<Catacion,Void,Boolean>{
+    private static class HttpResquestUpdateCatacion extends AsyncTask<Catacion, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(Catacion... catacions) {

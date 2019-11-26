@@ -23,15 +23,13 @@ import java.util.List;
 public class RegistrarCatador extends AppCompatActivity {
 
     private Spinner spinnerNivelExperiencia;
-    List<String> niveles = new ArrayList<String>();
+    private final List<String> niveles = new ArrayList<>();
 
     private EditText editTextName;
     private EditText editTextCedula;
     private EditText editTextCorreo;
     private EditText editTextContraseña;
     private EditText editTextCodigo;
-
-    private Button buttonGuardar;
 
 
     @Override
@@ -55,14 +53,13 @@ public class RegistrarCatador extends AppCompatActivity {
         spinnerNivelExperiencia.setAdapter(dataAdapter);
         spinnerNivelExperiencia.setSelection(listsize);
 
-        editTextName = (EditText) findViewById(R.id.editTextName);
-        editTextCedula = (EditText) findViewById(R.id.editTextCedula);
-        editTextCorreo = (EditText) findViewById(R.id.editTextCorreo);
-        editTextContraseña = (EditText) findViewById(R.id.editTextContraseña);
-        editTextCodigo = (EditText) findViewById(R.id.editTextCodigo);
+        editTextName = findViewById(R.id.editTextName);
+        editTextCedula = findViewById(R.id.editTextCedula);
+        editTextCorreo = findViewById(R.id.editTextCorreo);
+        editTextContraseña = findViewById(R.id.editTextContraseña);
+        editTextCodigo = findViewById(R.id.editTextCodigo);
 
-        buttonGuardar = (Button) findViewById(R.id.buttonGuardarCatador);
-
+        Button buttonGuardar = findViewById(R.id.buttonGuardarCatador);
 
 
         buttonGuardar.setOnClickListener(new View.OnClickListener() {
@@ -78,9 +75,8 @@ public class RegistrarCatador extends AppCompatActivity {
                     catador.setCodigo(editTextCodigo.getText().toString());
                     Boolean result = new HttpRequestAddCatador().execute(catador).get();
                     if (result) {
-                        Toast.makeText(RegistrarCatador.this, "Registrado", Toast.LENGTH_SHORT).show();
-                        Intent intent = new Intent(RegistrarCatador.this , Perfil.class);
-                        intent.putExtra("catador", catador);
+                        Toast.makeText(RegistrarCatador.this, "Registrado, espere a ser habilitado para su autenticación", Toast.LENGTH_SHORT).show();
+                        Intent intent = new Intent(RegistrarCatador.this, Principal.class);
                         startActivity(intent);
                         finish();
                     } else {
@@ -95,7 +91,7 @@ public class RegistrarCatador extends AppCompatActivity {
 
     }
 
-    private class HttpRequestAddCatador extends AsyncTask<Catador, Void, Boolean> {
+    private static class HttpRequestAddCatador extends AsyncTask<Catador, Void, Boolean> {
 
 
         @Override
@@ -109,12 +105,12 @@ public class RegistrarCatador extends AppCompatActivity {
             super.onPostExecute(aBoolean);
         }
     }
+
     @Override
     public boolean onOptionsItemSelected(MenuItem item) {
-        switch (item.getItemId()) {
-            case android.R.id.home:
-                finish();
-                return true;
+        if (item.getItemId() == android.R.id.home) {
+            finish();
+            return true;
         }
         return super.onOptionsItemSelected(item);
     }

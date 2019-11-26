@@ -16,9 +16,7 @@ import androidx.fragment.app.Fragment;
 import com.example.Entities.Catacion;
 import com.example.Entities.Catador;
 import com.example.Entities.Catas;
-import com.example.Entities.Panel;
 import com.example.Model.CataService;
-import com.example.Model.PanelService;
 import com.example.adapters.MisCatasAdapter;
 import com.example.catafex.R;
 import com.example.catafex.RegistrarCataController;
@@ -32,20 +30,25 @@ public class MisCatasFragment extends Fragment {
     private List<Catas> misCatas;
     private Catador catador;
     private Catas cata;
-    List<Catacion> cataciones;
+    private List<Catacion> cataciones;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
                              ViewGroup container, Bundle savedInstanceState) {
 
         View root = inflater.inflate(R.layout.fragment_miscatas, container, false);
         try {
-            misCatas = new ArrayList<Catas>();
+            misCatas = new ArrayList<>();
             if (getArguments() != null) {
                 catador = (Catador) getArguments().getSerializable("catador");
-                listViewMisCatas = (ListView) root.findViewById(R.id.listViewMisCatas);
+                listViewMisCatas = root.findViewById(R.id.listViewMisCatas);
                 cataciones = new HttpResquestGetCataciones().execute(catador.getCodigo()).get();
             }
             if (cataciones != null) {
+                for(Catacion c: cataciones){
+                    if(c.getCantidad()==0){
+                        System.out.println(c.getCantidad());
+                    }
+                }
                 for (Catacion c : cataciones) {
                     if (c.getCantidad() > 0) {
                         cata = new HttpResquestGetCatas().execute(c.getCodCatacion()).get();
@@ -55,13 +58,16 @@ public class MisCatasFragment extends Fragment {
                         } else {
                             Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
                         }
-                    } else {
+
+                    }
+                    else {
                         Toast.makeText(getContext(), "No hay Catas Asignadas", Toast.LENGTH_SHORT).show();
                     }
                 }
-            } else {
+            } /*else {
+                //System.out.println("entro");
                 Toast.makeText(getContext(), "No hay Catas Asignadas", Toast.LENGTH_SHORT).show();
-            }
+            }*/
             if (misCatas != null) {
                 listViewMisCatas.setAdapter(new MisCatasAdapter(getContext(), misCatas));
             } else {
@@ -85,7 +91,7 @@ public class MisCatasFragment extends Fragment {
         return root;
     }
 
-    private class HttpResquestGetCataciones extends AsyncTask<String, Void, List<Catacion>> {
+    private static class HttpResquestGetCataciones extends AsyncTask<String, Void, List<Catacion>> {
 
         @Override
         protected List<Catacion> doInBackground(String... strings) {
@@ -99,7 +105,7 @@ public class MisCatasFragment extends Fragment {
         }
     }
 
-    private class HttpResquestGetCatas extends AsyncTask<String, Void, Catas> {
+    private static class HttpResquestGetCatas extends AsyncTask<String, Void, Catas> {
 
         @Override
         protected Catas doInBackground(String... strings) {

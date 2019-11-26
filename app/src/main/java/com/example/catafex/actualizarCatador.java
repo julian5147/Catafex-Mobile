@@ -19,34 +19,31 @@ public class actualizarCatador extends AppCompatActivity {
     private EditText editTextName;
     private EditText editTextCorreo;
     private EditText editTextContraseña;
-    private Button buttonGuardar;
-    private Button buttonCancelar;
     private Catador catador;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         setContentView(R.layout.activity_actualizar_catador);
-        editTextName = (EditText) findViewById(R.id.TextName);
-        editTextCorreo = (EditText) findViewById(R.id.TextCorreo);
-        editTextContraseña = (EditText) findViewById(R.id.TextContraseña);
+        editTextName =  findViewById(R.id.TextName);
+        editTextCorreo = findViewById(R.id.TextCorreo);
+        editTextContraseña = findViewById(R.id.TextContraseña);
 
         Intent intent = getIntent();
         catador = (Catador) intent.getSerializableExtra("catador");
 
         editTextName.setText(catador.getNombre());
         editTextCorreo.setText(catador.getCorreo());
-        editTextContraseña.setText(catador.getContrasena());
 
-        buttonGuardar = (Button) findViewById(R.id.buttonUpdateCatador);
+        Button buttonGuardar = findViewById(R.id.buttonUpdateCatador);
 
-        buttonCancelar = (Button) findViewById(R.id.buttonCancelar);
+        Button buttonCancelar = findViewById(R.id.buttonCancelar);
 
         buttonCancelar.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
                 Intent intent = new Intent(actualizarCatador.this, Perfil.class);
-                intent.putExtra("catador",catador);
+                intent.putExtra("catador", catador);
                 startActivity(intent);
             }
         });
@@ -55,20 +52,29 @@ public class actualizarCatador extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    catador.setNombre(editTextName.getText().toString());
-                    catador.setCorreo(editTextCorreo.getText().toString());
-                    catador.setContrasena(editTextContraseña.getText().toString());
-                    boolean result = new HttpResquestUpdate().execute(catador).get();
-                    if(result){
-                        Intent intent = new Intent(actualizarCatador.this, Perfil.class);
-                        intent.putExtra("catador" , catador);
-                        startActivity(intent);
+                    Catador catador1 = new Catador();
+                    catador1.setNombre(editTextName.getText().toString());
+                    catador1.setCorreo(editTextCorreo.getText().toString());
+                    System.out.println("-"+editTextContraseña.getText().toString());
+                    if (editTextContraseña.getText().toString().equals("")) {
+                        catador1.setContrasena(catador.getContrasena());
+                    } else {
+                        catador1.setContrasena(editTextContraseña.getText().toString());
                     }
-                    else{
+                    catador1.setCedula(catador.getCedula());
+                    catador1.setCodigo(catador.getCodigo());
+                    catador1.setNivelExp(catador.getNivelExp());
+                    boolean result = new HttpResquestUpdate().execute(catador1).get();
+                    if (result) {
+                        Intent intent = new Intent(actualizarCatador.this, Perfil.class);
+                        intent.putExtra("catador", catador1);
+                        startActivity(intent);
+                        finish();
+                    } else {
                         Toast.makeText(actualizarCatador.this, "Actualización Failed", Toast.LENGTH_SHORT).show();
                     }
                 } catch (Exception e) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                    AlertDialog.Builder builder = new AlertDialog.Builder(actualizarCatador.this);
                     builder.setMessage("Failed");
                 }
             }

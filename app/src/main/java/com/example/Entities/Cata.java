@@ -4,7 +4,7 @@ import java.io.Serializable;
 
 public class Cata implements Serializable {
 
-    private String codCatacion;
+    private String codCata;
 
     private int fragancia;
 
@@ -107,12 +107,12 @@ public class Cata implements Serializable {
         this.observaciones = observaciones;
     }
 
-    public String getCodCatacion() {
-        return codCatacion;
+    public String getCodCata() {
+        return codCata;
     }
 
-    public void setCodCatacion(String codCatacion) {
-        this.codCatacion = codCatacion;
+    public void setCodCata(String codCata) {
+        this.codCata = codCata;
     }
 
 

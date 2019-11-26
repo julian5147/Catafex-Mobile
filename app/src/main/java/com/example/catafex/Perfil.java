@@ -37,8 +37,6 @@ public class Perfil extends AppCompatActivity {
 
     private AppBarConfiguration mAppBarConfiguration;
     private Catador catador;
-    private TextView nombre;
-    private  TextView correo;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -51,9 +49,9 @@ public class Perfil extends AppCompatActivity {
         View headerView = navigationView.getHeaderView(0);
         Intent intent = getIntent();
         catador = (Catador) intent.getSerializableExtra("catador");
-        nombre = (TextView) headerView.findViewById(R.id.nombre);
+        TextView nombre =  headerView.findViewById(R.id.nombre);
         nombre.setText(catador.getNombre());
-        correo = (TextView) headerView.findViewById(R.id.correo);
+        TextView correo =  headerView.findViewById(R.id.correo);
         correo.setText(catador.getCorreo());
         mAppBarConfiguration = new AppBarConfiguration.Builder(
                 R.id.nav_home, R.id.nav_gallery)
@@ -152,7 +150,7 @@ public class Perfil extends AppCompatActivity {
                 || super.onSupportNavigateUp();
     }
 
-    private class HttpResquestDelete extends AsyncTask<String, Void, Boolean> {
+    private static class HttpResquestDelete extends AsyncTask<String, Void, Boolean> {
 
         @Override
         protected Boolean doInBackground(String... strings) {

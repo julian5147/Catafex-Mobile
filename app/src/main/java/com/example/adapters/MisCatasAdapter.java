@@ -38,10 +38,9 @@ public class MisCatasAdapter extends ArrayAdapter<Catas> {
         TextView textViewVeces = (TextView) view.findViewById(R.id.textViewVeces);
         textViewVeces.setText(String.valueOf(catas.getVezCatada()));
         TextView textViewFecha = (TextView) view.findViewById(R.id.textViewFecha);
-        textViewFecha.setText(String.valueOf(catas.getFecha()));
+        textViewFecha.setText(catas.getFecha());
         TextView textViewCodCafe = (TextView) view.findViewById(R.id.textViewCodCafe);
-        textViewCodCafe.setText(String.valueOf(catas.getCodCafe()));
-
+        textViewCodCafe.setText(catas.getCodCafe());
         return view;
     }
 }

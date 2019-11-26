@@ -13,12 +13,12 @@ import java.util.HashMap;
 import java.util.Map;
 
 public class CatadorService {
-    private String BASE_URL = "http://192.168.1.75:51316/api/ApiRegistrarCatador";
-    private RestTemplate restTemplate = new RestTemplate();
+    private final String BASE_URL = "http://192.168.1.75:51316/api/ApiRegistrarCatador";
+    private final RestTemplate restTemplate = new RestTemplate();
 
     public boolean registrarCatador(Catador catador) {
         try {
-            Map<String, String> values = new HashMap<String, String>();
+            Map<String, String> values = new HashMap<>();
             values.put("nombre", catador.getNombre());
             values.put("cedula", catador.getCedula());
             values.put("correo", catador.getCorreo());
@@ -28,7 +28,7 @@ public class CatadorService {
             JSONObject jsonObject = new JSONObject(values);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), headers);
+            HttpEntity<String> entity = new HttpEntity<>(jsonObject.toString(), headers);
             restTemplate.postForEntity(BASE_URL, entity, null);
             return true;
         } catch (Exception e) {
@@ -61,7 +61,7 @@ public class CatadorService {
 
     public boolean updateCatador(Catador catador) {
         try {
-            Map<String, String> values = new HashMap<String, String>();
+            Map<String, String> values = new HashMap<>();
             values.put("nombre", catador.getNombre());
             values.put("correo", catador.getCorreo());
             values.put("contrasena", catador.getContrasena());
@@ -69,7 +69,7 @@ public class CatadorService {
             JSONObject jsonObject = new JSONObject(values);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), headers);
+            HttpEntity<String> entity = new HttpEntity<>(jsonObject.toString(), headers);
             restTemplate.put(BASE_URL , entity);
             return true;
         } catch (Exception e) {

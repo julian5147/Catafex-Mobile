@@ -1,20 +1,23 @@
 package com.example.Entities;
 
 import java.io.Serializable;
-import java.sql.Time;
+import java.util.Arrays;
+import java.util.List;
 
 
 public class Catas implements Serializable {
 
-    String codCafe;
+    private String codCafe;
 
-    int vezCatada;
+    private int vezCatada;
 
-    String hora;
+    private String hora;
 
-    String fecha;
+    private String fecha;
 
-    String tipoCafe;
+    private String tipoCafe;
+
+    private String atributos;
 
     public String getTipoCafe() {
         return tipoCafe;
@@ -54,5 +57,13 @@ public class Catas implements Serializable {
 
     public void setFecha(String fecha) {
         this.fecha = fecha;
+    }
+
+    public List<String> getAtributos() {
+        return Arrays.asList(this.atributos.split(";"));
+    }
+
+    public void setAtributos(String atributos) {
+        this.atributos = atributos;
     }
 }

@@ -15,18 +15,18 @@ import java.util.Map;
 
 public class AutenticarService {
 
-    private String BASE_URL = "http://192.168.1.75:51316/api/ApiAutenticar";
-    private RestTemplate restTemplate = new RestTemplate();
+    private final RestTemplate restTemplate = new RestTemplate();
 
     public Catador Autenticar(String correo, String contrasena){
         try {
-            Map<String, String> values = new HashMap<String, String>();
+            Map<String, String> values = new HashMap<>();
             values.put("correo", correo);
             values.put("contrasena", contrasena);
             JSONObject jsonObject = new JSONObject(values);
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
-            HttpEntity<String> entity = new HttpEntity<String>(jsonObject.toString(), headers);
+            HttpEntity<String> entity = new HttpEntity<>(jsonObject.toString(), headers);
+            String BASE_URL = "http://192.168.1.75:51316/api/ApiAutenticar";
             return restTemplate.exchange(
                     BASE_URL, HttpMethod.POST, entity,
                     new ParameterizedTypeReference<Catador>() {
