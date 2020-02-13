@@ -7,6 +7,7 @@ import android.content.Intent;
 import android.os.AsyncTask;
 import android.os.Bundle;
 
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.Button;
 import android.widget.EditText;
@@ -24,6 +25,7 @@ import com.example.Model.CataService;
 import com.example.adapters.RegistrarCataAdapter;
 
 import java.util.ArrayList;
+import java.util.HashMap;
 import java.util.List;
 
 public class RegistrarCataController extends AppCompatActivity {
@@ -34,12 +36,14 @@ public class RegistrarCataController extends AppCompatActivity {
     private Catas catas;
     private Catador catador;
     private Catacion catacion;
+    private HashMap<String, SeekBar> atributosActuales;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         try {
             super.onCreate(savedInstanceState);
             setContentView(R.layout.registrar_cata);
+            getSupportActionBar().setDisplayHomeAsUpEnabled(true);
             seekBarsAtributos = new ArrayList<>();
             numAtributos = new ArrayList<>();
             Intent intent = getIntent();
@@ -68,6 +72,8 @@ public class RegistrarCataController extends AppCompatActivity {
             numAtributos.add((TextView) findViewById(R.id.num1));
             numAtributos.add((TextView) findViewById(R.id.num8));
 
+            atributosActuales = new HashMap<>();
+
             editTextObservaciones = findViewById(R.id.editTextObservaciones);
 
             Button regitrar = findViewById(R.id.buttonRegistrar);
@@ -78,6 +84,7 @@ public class RegistrarCataController extends AppCompatActivity {
                 @Override
                 public void onClick(View view) {
                     try {
+                        System.out.println(obtenerValoresCata(catas.getAtributos()).getCodCata());
                         Boolean result = new HttpRequestAdd().execute(obtenerValoresCata(catas.getAtributos())).get();
                         if (result) {
                             Toast.makeText(RegistrarCataController.this, "Cata # " + (catas.getVezCatada() - (catacion.getCantidad() - 1)) + " Registrada - faltan " + (catacion.getCantidad() - 1) + " catas", Toast.LENGTH_SHORT).show();
@@ -102,6 +109,7 @@ public class RegistrarCataController extends AppCompatActivity {
                                 Toast.makeText(RegistrarCataController.this, "Failed", Toast.LENGTH_SHORT).show();
                             }
                         } else {
+                            System.out.println("print2");
                             Toast.makeText(RegistrarCataController.this, "Failed", Toast.LENGTH_SHORT).show();
                         }
                     } catch (Exception e) {
@@ -117,10 +125,13 @@ public class RegistrarCataController extends AppCompatActivity {
 
     private void obtenerSeekBar() {
         for (int i = 0; i < seekBarsAtributos.size(); i++) {
-
             numAtributos.get(i).setText("" + seekBarsAtributos.get(i).getProgress());
+
+
         }
         for (int j = 0; j < seekBarsAtributos.size(); j++) {
+
+
             final int cont = j;
             seekBarsAtributos.get(j).setOnSeekBarChangeListener(new SeekBar.OnSeekBarChangeListener() {
                 @Override
@@ -143,8 +154,17 @@ public class RegistrarCataController extends AppCompatActivity {
 
     }
 
+    private void borrarAtributosActuales() {
+
+        atributosActuales.clear();
+    }
+
     private void hacerVisible(List<String> atributos) {
+
+        borrarAtributosActuales();
+
         for (int i = 0; i < atributos.size(); i++) {
+            atributosActuales.put(atributos.get(i).toUpperCase(), seekBarsAtributos.get(i));
             seekBarsAtributos.get(i).setVisibility(View.VISIBLE);
             numAtributos.get(i).setVisibility(View.VISIBLE);
         }
@@ -154,39 +174,29 @@ public class RegistrarCataController extends AppCompatActivity {
         Cata cata = new Cata();
         cata.setCodCata(catacion.getCodCatacion());
         cata.setObservaciones(editTextObservaciones.getText().toString());
-        for (int i = 0; i < atributos.size(); i++) {
-            switch (atributos.get(i)) {
-                case "AROMA":
-                    cata.setAroma(seekBarsAtributos.get(i).getProgress());
-                    break;
-                case "FRAGANCIA":
-                    cata.setFragancia(seekBarsAtributos.get(i).getProgress());
-                    break;
-                case "ACIDEZ":
-                    cata.setAcidez(seekBarsAtributos.get(i).getProgress());
-                    break;
-                case "AMARGO":
-                    cata.setAmargo(seekBarsAtributos.get(i).getProgress());
-                    break;
-                case "CUERPO":
-                    cata.setCuerpo(seekBarsAtributos.get(i).getProgress());
-                    break;
-                case "RANCIDEZ":
-                    cata.setRancidez(seekBarsAtributos.get(i).getProgress());
-                    break;
-                case "SABOR_RESIDUAL":
-                    cata.setSaborResidual(seekBarsAtributos.get(i).getProgress());
-                    break;
-                case "IMPRESION_GLOBAL":
-                    cata.setImpresionGlobal(seekBarsAtributos.get(i).getProgress());
-                    break;
-                case "DULCE":
-                    cata.setDulce(seekBarsAtributos.get(i).getProgress());
-                    break;
-            }
 
-        }
+
+        cata.setAroma(obtenerProgresoSeekBar("AROMA"));
+        cata.setFragancia(obtenerProgresoSeekBar("FRAGANCIA"));
+        cata.setAcidez(obtenerProgresoSeekBar("ACIDEZ"));
+        cata.setAmargo(obtenerProgresoSeekBar("AMARGO"));
+        cata.setCuerpo(obtenerProgresoSeekBar("CUERPO"));
+        cata.setRancidez(obtenerProgresoSeekBar("RANCIDEZ"));
+        cata.setSaborResidual(obtenerProgresoSeekBar("SABOR_RESIDUAL"));
+        cata.setImpresionGlobal(obtenerProgresoSeekBar("IMPRESION_GLOBAL"));
+        cata.setDulce(obtenerProgresoSeekBar("DULCE"));
+
         return cata;
+    }
+
+
+    private int obtenerProgresoSeekBar(String nombreAtributo) {
+
+        if (!atributosActuales.containsKey(nombreAtributo))
+            return 0;
+        else
+            return atributosActuales.get(nombreAtributo).getProgress();
+
     }
 
     private static class HttpRequestAdd extends AsyncTask<Cata, Void, Boolean> {
@@ -215,6 +225,18 @@ public class RegistrarCataController extends AppCompatActivity {
         protected void onPostExecute(Boolean aBoolean) {
             super.onPostExecute(aBoolean);
         }
+    }
+
+    @Override
+    public boolean onOptionsItemSelected(MenuItem item) {
+        if (item.getItemId() == android.R.id.home) {
+            Intent intent2 = new Intent(RegistrarCataController.this, Perfil.class);
+            intent2.putExtra("catador", catador);
+            startActivity(intent2);
+            finish();
+            return true;
+        }
+        return super.onOptionsItemSelected(item);
     }
 }
 

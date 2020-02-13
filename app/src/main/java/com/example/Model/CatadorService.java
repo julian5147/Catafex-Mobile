@@ -12,10 +12,18 @@ import org.springframework.web.client.RestTemplate;
 import java.util.HashMap;
 import java.util.Map;
 
+/**
+ * Clase que permite consumir los servicios necesarios para gestionar un catador
+ */
 public class CatadorService {
-    private final String BASE_URL = "http://192.168.1.75:51316/api/ApiRegistrarCatador";
+    private final String BASE_URL = "http://192.168.137.80:51316/api/ApiRegistrarCatador";
     private final RestTemplate restTemplate = new RestTemplate();
 
+    /**
+     *
+     * @param catador
+     * @return
+     */
     public boolean registrarCatador(Catador catador) {
         try {
             Map<String, String> values = new HashMap<>();
@@ -36,6 +44,11 @@ public class CatadorService {
         }
     }
 
+    /**
+     *
+     * @param cedula
+     * @return
+     */
     public Catador obtenerCatador(String cedula){
         try {
             return restTemplate.exchange(
@@ -49,6 +62,11 @@ public class CatadorService {
         }
     }
 
+    /**
+     *
+     * @param cedula
+     * @return
+     */
     public boolean deleteCatador(String cedula){
         try {
             restTemplate.delete(BASE_URL+ "?cedula=" + cedula);
@@ -59,6 +77,11 @@ public class CatadorService {
 
     }
 
+    /**
+     *
+     * @param catador
+     * @return
+     */
     public boolean updateCatador(Catador catador) {
         try {
             Map<String, String> values = new HashMap<>();

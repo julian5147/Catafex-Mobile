@@ -15,6 +15,6 @@
     <string name="title_contraseña">Contraseña</string>
     <string name="title_correo">Correo</string>
     <string name="menu_home">Home</string>
-    <string name="menu_catas">Mis Catas</string>
+    <string name="menu_catas">Mis Catas Pendientes  </string>
 
 </resources>

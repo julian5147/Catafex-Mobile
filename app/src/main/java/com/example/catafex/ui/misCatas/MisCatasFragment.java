@@ -43,33 +43,20 @@ public class MisCatasFragment extends Fragment {
                 listViewMisCatas = root.findViewById(R.id.listViewMisCatas);
                 cataciones = new HttpResquestGetCataciones().execute(catador.getCodigo()).get();
             }
-            if (cataciones != null) {
-                for(Catacion c: cataciones){
-                    if(c.getCantidad()==0){
-                        System.out.println(c.getCantidad());
-                    }
-                }
+            if (!cataciones.isEmpty()) {
                 for (Catacion c : cataciones) {
-                    if (c.getCantidad() > 0) {
-                        cata = new HttpResquestGetCatas().execute(c.getCodCatacion()).get();
-                        System.out.println(cata);
-                        if (cata != null) {
-                            misCatas.add(cata);
-                        } else {
-                            Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
-                        }
-
-                    }
-                    else {
-                        Toast.makeText(getContext(), "No hay Catas Asignadas", Toast.LENGTH_SHORT).show();
+                    cata = new HttpResquestGetCatas().execute(c.getCodCatacion()).get();
+                    if (cata != null) {
+                        misCatas.add(cata);
+                    } else {
+                        Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
                     }
                 }
-            } /*else {
-                //System.out.println("entro");
-                Toast.makeText(getContext(), "No hay Catas Asignadas", Toast.LENGTH_SHORT).show();
-            }*/
-            if (misCatas != null) {
-                listViewMisCatas.setAdapter(new MisCatasAdapter(getContext(), misCatas));
+                if (misCatas != null) {
+                    listViewMisCatas.setAdapter(new MisCatasAdapter(getContext(), misCatas));
+                } else {
+                    Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
+                }
             } else {
                 Toast.makeText(getContext(), "No hay Catas Asignadas", Toast.LENGTH_SHORT).show();
             }

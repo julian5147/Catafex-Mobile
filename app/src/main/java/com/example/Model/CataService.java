@@ -15,10 +15,20 @@ import java.util.HashMap;
 import java.util.List;
 import java.util.Map;
 
+/**
+ * Clase que permite consumir los servicios necesarios para Registrar y consultar catas pendientes
+ */
 public class CataService {
-    private final String BASE_URL = "http://192.168.1.75:51316/api/ApiRegistrarCata";
+    private final String BASE_URL = "http://192.168.137.80:51316/api/ApiRegistrarCata";
     private final RestTemplate restTemplate = new RestTemplate();
 
+    /**
+     * permite consumir el servicio ApiRegistrarCata con el fin de registrar los valores
+     * ingresados de una cata
+     * @param cata objeto con todos los valores de la cata ya registrados
+     * @return true si la cata fue registrada exitosamente y false si no fue registrada o se produce
+     * un error en el servicio
+     */
     public boolean registrar(Cata cata) {
         try {
             Map<String, String> values = new HashMap<>();
@@ -43,6 +53,14 @@ public class CataService {
             return false;
         }
     }
+
+    /**
+     * permite consumir el servicio para consultar la catas pendientes que tiene asignadas el
+     * catador
+     * @param codCatador código del catador que me permite buscar que catas tiene asignadas
+     * @return una lista con las catas pendientes, si no cuenta con cataciones pendientes me retorna
+     * null
+     */
     public List<Catacion> consultarCataciones(String codCatador){
         try {
             return restTemplate.exchange(
@@ -56,6 +74,13 @@ public class CataService {
         }
     }
 
+    /**
+     * permite actualizar un catación en este caso se actualiza la cantidad de veces a catar con
+     * el fin de dar por finalizada esa catación
+     * @param catacion objeto catación con los valores necesarios para actualizar dicha catación
+     * @return true si la Catación fue actualizada exitosamente o false si no lo fue actualiza o
+     * ocurrio un error en el servicio.
+     */
     public boolean updateCatacion(Catacion catacion) {
         try {
             Map<String, String> values = new HashMap<>();
@@ -76,6 +101,11 @@ public class CataService {
         }
     }
 
+    /**
+     *
+     * @param codCatacion
+     * @return
+     */
     public Catas obtenerCata(String codCatacion) {
         try {
             return restTemplate.exchange(

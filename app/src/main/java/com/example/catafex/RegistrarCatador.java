@@ -61,19 +61,12 @@ public class RegistrarCatador extends AppCompatActivity {
 
         Button buttonGuardar = findViewById(R.id.buttonGuardarCatador);
 
-
         buttonGuardar.setOnClickListener(new View.OnClickListener() {
+
             @Override
             public void onClick(View view) {
                 try {
-                    Catador catador = new Catador();
-                    catador.setNombre(editTextName.getText().toString());
-                    catador.setCedula(editTextCedula.getText().toString());
-                    catador.setCorreo(editTextCorreo.getText().toString());
-                    catador.setContrasena(editTextContraseña.getText().toString());
-                    catador.setNivelExp(spinnerNivelExperiencia.getSelectedItem().toString());
-                    catador.setCodigo(editTextCodigo.getText().toString());
-                    Boolean result = new HttpRequestAddCatador().execute(catador).get();
+                    Boolean result = new HttpRequestAddCatador().execute(obtenerDatosCatador()).get();
                     if (result) {
                         Toast.makeText(RegistrarCatador.this, "Registrado, espere a ser habilitado para su autenticación", Toast.LENGTH_SHORT).show();
                         Intent intent = new Intent(RegistrarCatador.this, Principal.class);
@@ -113,5 +106,20 @@ public class RegistrarCatador extends AppCompatActivity {
             return true;
         }
         return super.onOptionsItemSelected(item);
+    }
+
+    /**
+     * Permite obtener los valores ingresados por un catador
+     * @return un objeto Catador el cual será registrado
+     */
+    private Catador obtenerDatosCatador() {
+        Catador catador = new Catador();
+        catador.setNombre(editTextName.getText().toString());
+        catador.setCedula(editTextCedula.getText().toString());
+        catador.setCorreo(editTextCorreo.getText().toString());
+        catador.setContrasena(editTextContraseña.getText().toString());
+        catador.setNivelExp(spinnerNivelExperiencia.getSelectedItem().toString());
+        catador.setCodigo(editTextCodigo.getText().toString());
+        return catador;
     }
 }

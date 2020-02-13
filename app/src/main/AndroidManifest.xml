@@ -32,7 +32,7 @@
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegistrarCataController" />
+        <activity android:name=".RegistrarCataController" android:label="Registrar Cata"/>
     </application>
 
 </manifest>
