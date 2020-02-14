@@ -2,10 +2,6 @@ package com.example.Entities;
 
 import java.io.Serializable;
 
-/**
- * clase que permite crear un objeto cata con el fin de poder ser modelado en un objeto json
- * así como también
- */
 public class Cata implements Serializable {
 
     private String codCata;

@@ -20,6 +20,10 @@ import com.example.Model.CatadorService;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que me permite construir y controlar la interfaz de usuario, además de consumir de forma
+ * asincrona los servicios pertinentes para registar un catador
+ */
 public class RegistrarCatador extends AppCompatActivity {
 
     private Spinner spinnerNivelExperiencia;

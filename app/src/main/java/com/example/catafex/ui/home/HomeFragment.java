@@ -13,6 +13,9 @@ import androidx.fragment.app.Fragment;
 import com.example.Entities.Catador;
 import com.example.catafex.R;
 
+/**
+ * Clase que me permite visualizar la información del catador en la pagina principal o Home
+ */
 public class HomeFragment extends Fragment {
 
 

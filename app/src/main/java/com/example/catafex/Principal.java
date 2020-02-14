@@ -14,7 +14,10 @@ import android.widget.EditText;
 import com.example.Entities.Catador;
 import com.example.Model.AutenticarService;
 
-
+/**
+ * Clase que me permite construir y controlar la interfaz de usuario, además de consumir de forma
+ * asincrona los servicios pertinentes para autenticar un catador
+ */
 public class Principal extends AppCompatActivity {
 
     private EditText editTextCorreo;

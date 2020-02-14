@@ -20,7 +20,7 @@ import android.widget.Toast;
 import com.example.Entities.Cata;
 import com.example.Entities.Catacion;
 import com.example.Entities.Catador;
-import com.example.Entities.Catas;
+import com.example.Entities.CatasPendientes;
 import com.example.Model.CataService;
 import com.example.adapters.RegistrarCataAdapter;
 
@@ -28,12 +28,16 @@ import java.util.ArrayList;
 import java.util.HashMap;
 import java.util.List;
 
+/**
+ * Clase que me permite construir y controlar la interfaz de usuario, además de consumir de forma
+ * asincrona los servicios pertinentes para registar una cata
+ */
 public class RegistrarCataController extends AppCompatActivity {
 
     private List<SeekBar> seekBarsAtributos;
     private List<TextView> numAtributos;
     private EditText editTextObservaciones;
-    private Catas catas;
+    private CatasPendientes catasPendientes;
     private Catador catador;
     private Catacion catacion;
     private HashMap<String, SeekBar> atributosActuales;
@@ -47,12 +51,12 @@ public class RegistrarCataController extends AppCompatActivity {
             seekBarsAtributos = new ArrayList<>();
             numAtributos = new ArrayList<>();
             Intent intent = getIntent();
-            catas = (Catas) intent.getSerializableExtra("cata");
+            catasPendientes = (CatasPendientes) intent.getSerializableExtra("cata");
             catador = (Catador) intent.getSerializableExtra("catador");
             catacion = (Catacion) intent.getSerializableExtra("catacion");
             ListView listViewRegistrarCata = findViewById(R.id.listViewRegistrarCata);
             listViewRegistrarCata.setItemsCanFocus(true);
-            RegistrarCataAdapter registrarCataAdapter = new RegistrarCataAdapter(RegistrarCataController.this, catas.getAtributos());
+            RegistrarCataAdapter registrarCataAdapter = new RegistrarCataAdapter(RegistrarCataController.this, catasPendientes.getAtributos());
             listViewRegistrarCata.setAdapter(registrarCataAdapter);
             seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBar1));
             seekBarsAtributos.add((SeekBar) findViewById(R.id.seekBar2));
@@ -77,18 +81,17 @@ public class RegistrarCataController extends AppCompatActivity {
             editTextObservaciones = findViewById(R.id.editTextObservaciones);
 
             Button regitrar = findViewById(R.id.buttonRegistrar);
-            hacerVisible(catas.getAtributos());
+            hacerVisible(catasPendientes.getAtributos());
             obtenerSeekBar();
 
             regitrar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     try {
-                        System.out.println(obtenerValoresCata(catas.getAtributos()).getCodCata());
-                        Boolean result = new HttpRequestAdd().execute(obtenerValoresCata(catas.getAtributos())).get();
+                        Boolean result = new HttpRequestAdd().execute(obtenerValoresCata()).get();
                         if (result) {
-                            Toast.makeText(RegistrarCataController.this, "Cata # " + (catas.getVezCatada() - (catacion.getCantidad() - 1)) + " Registrada - faltan " + (catacion.getCantidad() - 1) + " catas", Toast.LENGTH_SHORT).show();
-                            //catas.setVezCatada(catas.getVezCatada() - 1);
+                            Toast.makeText(RegistrarCataController.this, "Cata # " + (catasPendientes.getVezCatada() - (catacion.getCantidad() - 1)) + " Registrada - faltan " + (catacion.getCantidad() - 1) + " catasPendientes", Toast.LENGTH_SHORT).show();
+                            //catasPendientes.setVezCatada(catasPendientes.getVezCatada() - 1);
                             catacion.setCantidad(catacion.getCantidad() - 1);
                             Boolean resultado = new HttpResquestUpdateCatacion().execute(catacion).get();
                             if (resultado) {
@@ -99,7 +102,7 @@ public class RegistrarCataController extends AppCompatActivity {
                                     finish();
                                 } else {
                                     Intent intent1 = new Intent(RegistrarCataController.this, RegistrarCataController.class);
-                                    intent1.putExtra("cata", catas);
+                                    intent1.putExtra("cata", catasPendientes);
                                     intent1.putExtra("catador", catador);
                                     intent1.putExtra("catacion", catacion);
                                     startActivity(intent1);
@@ -123,6 +126,10 @@ public class RegistrarCataController extends AppCompatActivity {
         }
     }
 
+    /**
+     * permite obtener los valores del seekBar para ser visualizados en los recuadros que están en
+     * al frente de cada seekBar
+     */
     private void obtenerSeekBar() {
         for (int i = 0; i < seekBarsAtributos.size(); i++) {
             numAtributos.get(i).setText("" + seekBarsAtributos.get(i).getProgress());
@@ -159,6 +166,11 @@ public class RegistrarCataController extends AppCompatActivity {
         atributosActuales.clear();
     }
 
+    /**
+     * se encarga de hacer visible los los seekBar y recuadros de pendiendo de el número de
+     * atributos que tiene el cáfe a catar
+     * @param atributos Lista de atributos que tiene el tipo de cáfe a catar
+     */
     private void hacerVisible(List<String> atributos) {
 
         borrarAtributosActuales();
@@ -170,7 +182,11 @@ public class RegistrarCataController extends AppCompatActivity {
         }
     }
 
-    private Cata obtenerValoresCata(List<String> atributos) {
+    /**
+     * permite asignarle a cada atributo de la cata el progreso de su seekBar correspondiente
+     * @return un objeto cata con lo valores catados
+     */
+    private Cata obtenerValoresCata() {
         Cata cata = new Cata();
         cata.setCodCata(catacion.getCodCatacion());
         cata.setObservaciones(editTextObservaciones.getText().toString());
@@ -190,6 +206,11 @@ public class RegistrarCataController extends AppCompatActivity {
     }
 
 
+    /**
+     * obtiene el progreso de cada seekBar dependiendo del atributo al que corresponda
+     * @param nombreAtributo del tipo de cáfe del cual se desea su valor catado
+     * @return valor del seekBar en su correspondiente atributo
+     */
     private int obtenerProgresoSeekBar(String nombreAtributo) {
 
         if (!atributosActuales.containsKey(nombreAtributo))

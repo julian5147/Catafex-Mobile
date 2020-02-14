@@ -15,7 +15,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.Entities.Catacion;
 import com.example.Entities.Catador;
-import com.example.Entities.Catas;
+import com.example.Entities.CatasPendientes;
 import com.example.Model.CataService;
 import com.example.adapters.MisCatasAdapter;
 import com.example.catafex.R;
@@ -24,12 +24,16 @@ import com.example.catafex.RegistrarCataController;
 import java.util.ArrayList;
 import java.util.List;
 
+/**
+ * Clase que me permite visualizar de forma dinamica las catas pendientes que tiene un catador en
+ * específico, permitiendome consumir los servicios que me proporcionan dicha información
+ */
 public class MisCatasFragment extends Fragment {
 
     private ListView listViewMisCatas;
-    private List<Catas> misCatas;
+    private List<CatasPendientes> misCatas;
     private Catador catador;
-    private Catas cata;
+    private CatasPendientes cata;
     private List<Catacion> cataciones;
 
     public View onCreateView(@NonNull LayoutInflater inflater,
@@ -58,7 +62,7 @@ public class MisCatasFragment extends Fragment {
                     Toast.makeText(getContext(), "Failed", Toast.LENGTH_SHORT).show();
                 }
             } else {
-                Toast.makeText(getContext(), "No hay Catas Asignadas", Toast.LENGTH_SHORT).show();
+                Toast.makeText(getContext(), "No hay CatasPendientes Asignadas", Toast.LENGTH_SHORT).show();
             }
             listViewMisCatas.setOnItemClickListener(new AdapterView.OnItemClickListener() {
                 @Override
@@ -92,17 +96,17 @@ public class MisCatasFragment extends Fragment {
         }
     }
 
-    private static class HttpResquestGetCatas extends AsyncTask<String, Void, Catas> {
+    private static class HttpResquestGetCatas extends AsyncTask<String, Void, CatasPendientes> {
 
         @Override
-        protected Catas doInBackground(String... strings) {
+        protected CatasPendientes doInBackground(String... strings) {
             CataService cataService = new CataService();
             return cataService.obtenerCata(strings[0]);
         }
 
         @Override
-        protected void onPostExecute(Catas catas) {
-            super.onPostExecute(catas);
+        protected void onPostExecute(CatasPendientes catasPendientes) {
+            super.onPostExecute(catasPendientes);
         }
     }
 }

@@ -1,7 +1,7 @@
 package com.example.Model;
 import com.example.Entities.Cata;
 import com.example.Entities.Catacion;
-import com.example.Entities.Catas;
+import com.example.Entities.CatasPendientes;
 
 import org.json.JSONObject;
 import org.springframework.core.ParameterizedTypeReference;
@@ -19,7 +19,7 @@ import java.util.Map;
  * Clase que permite consumir los servicios necesarios para Registrar y consultar catas pendientes
  */
 public class CataService {
-    private final String BASE_URL = "http://192.168.137.80:51316/api/ApiRegistrarCata";
+    private final String BASE_URL = "http://192.168.1.75:51316/api/ApiRegistrarCata";
     private final RestTemplate restTemplate = new RestTemplate();
 
     /**
@@ -102,16 +102,16 @@ public class CataService {
     }
 
     /**
-     *
+     * permite consumir el servicio para obtener la información de las catas pendientes
      * @param codCatacion
-     * @return
+     * @return un objeto CatasPendientes
      */
-    public Catas obtenerCata(String codCatacion) {
+    public CatasPendientes obtenerCata(String codCatacion) {
         try {
             return restTemplate.exchange(
                     BASE_URL + "/ObtenerInformacionCatacion/" + codCatacion,
                     HttpMethod.GET, null,
-                    new ParameterizedTypeReference<Catas>() {
+                    new ParameterizedTypeReference<CatasPendientes>() {
                     }
             ).getBody();
         } catch (Exception e) {

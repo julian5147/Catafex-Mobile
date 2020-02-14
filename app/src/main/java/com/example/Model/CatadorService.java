@@ -16,13 +16,14 @@ import java.util.Map;
  * Clase que permite consumir los servicios necesarios para gestionar un catador
  */
 public class CatadorService {
-    private final String BASE_URL = "http://192.168.137.80:51316/api/ApiRegistrarCatador";
+    private final String BASE_URL = "http://192.168.1.75:51316/api/ApiRegistrarCatador";
     private final RestTemplate restTemplate = new RestTemplate();
 
     /**
-     *
+     * registrar un catador con los valores prevaimente ingresados
      * @param catador
-     * @return
+     * @return true si el catador fue regsitrado exitosamente o false si no fue registrado o ocurrio
+     * un error en el servicio
      */
     public boolean registrarCatador(Catador catador) {
         try {
@@ -45,9 +46,9 @@ public class CatadorService {
     }
 
     /**
-     *
-     * @param cedula
-     * @return
+     * permite obtener un catador con el número de su cedula
+     * @param cedula del Catador
+     * @return un objeto Catador si su cédula es correcta
      */
     public Catador obtenerCatador(String cedula){
         try {
@@ -63,9 +64,10 @@ public class CatadorService {
     }
 
     /**
-     *
+     * permite eliminar un catador de la base de datos
      * @param cedula
-     * @return
+     * @return true si el Catador fue eliminado exitosamente, false si no fue eliminado o ocurrio
+     * algún error con el servicio
      */
     public boolean deleteCatador(String cedula){
         try {
@@ -78,9 +80,10 @@ public class CatadorService {
     }
 
     /**
-     *
-     * @param catador
-     * @return
+     * permite actualizar el nombre, correo y contraseña de un Catador dado su cedula
+     * @param catador objeto Catador creado con los valores a actualizar
+     * @return true si el Catador fue actualizado exitosamente, false si el catadsor no fue
+     * actualizado o ocurrio  un error en el servicio.
      */
     public boolean updateCatador(Catador catador) {
         try {

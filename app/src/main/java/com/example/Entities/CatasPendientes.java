@@ -5,7 +5,7 @@ import java.util.Arrays;
 import java.util.List;
 
 
-public class Catas implements Serializable {
+public class CatasPendientes implements Serializable {
 
     private String codCafe;
 

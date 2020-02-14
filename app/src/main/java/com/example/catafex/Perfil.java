@@ -99,39 +99,7 @@ public class Perfil extends AppCompatActivity {
                 finish();
                 break;
             case R.id.action_eliminar:
-                try {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(Perfil.this);
-                    builder.setCancelable(false);
-                    builder.setTitle("Confirmar");
-                    builder.setMessage("¿Estas Seguro?");
-                    builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            try {
-                                boolean result = new HttpResquestDelete().execute(catador.getCedula()).get();
-                                if (result) {
-                                    Intent intent = new Intent(Perfil.this, Principal.class);
-                                    startActivity(intent);
-                                } else {
-                                    Toast.makeText(Perfil.this, "Eliminar Cuenta Failed", Toast.LENGTH_SHORT).show();
-                                }
-                            } catch (Exception e) {
-                                AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                                builder.setMessage("Failed");
-                            }
-                        }
-                    });
-                    builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
-                        @Override
-                        public void onClick(DialogInterface dialogInterface, int i) {
-                            dialogInterface.cancel();
-                        }
-                    });
-                    builder.create().show();
-                } catch (Exception e) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                    builder.setMessage("Failed");
-                }
+                eliminarCatador();
                 break;
             case R.id.action_cerrar:
                 Intent intent2 = new Intent(Perfil.this, Principal.class);
@@ -164,5 +132,43 @@ public class Perfil extends AppCompatActivity {
         }
     }
 
-
+    /**
+     * se encarga de construir la interfaz y hacer la petición al servicio cuando el usuario desea
+     * eliminar su cuenta
+     */
+    private void eliminarCatador(){
+        try {
+            AlertDialog.Builder builder = new AlertDialog.Builder(Perfil.this);
+            builder.setCancelable(false);
+            builder.setTitle("Confirmar");
+            builder.setMessage("¿Estas Seguro?");
+            builder.setPositiveButton("Si", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    try {
+                        boolean result = new HttpResquestDelete().execute(catador.getCedula()).get();
+                        if (result) {
+                            Intent intent = new Intent(Perfil.this, Principal.class);
+                            startActivity(intent);
+                        } else {
+                            Toast.makeText(Perfil.this, "Eliminar Cuenta Failed", Toast.LENGTH_SHORT).show();
+                        }
+                    } catch (Exception e) {
+                        AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+                        builder.setMessage("Failed");
+                    }
+                }
+            });
+            builder.setNegativeButton("No", new DialogInterface.OnClickListener() {
+                @Override
+                public void onClick(DialogInterface dialogInterface, int i) {
+                    dialogInterface.cancel();
+                }
+            });
+            builder.create().show();
+        } catch (Exception e) {
+            AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
+            builder.setMessage("Failed");
+        }
+    }
 }

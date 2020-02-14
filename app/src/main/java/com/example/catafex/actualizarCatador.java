@@ -14,6 +14,10 @@ import android.widget.Toast;
 import com.example.Entities.Catador;
 import com.example.Model.CatadorService;
 
+/**
+ * Clase que me permite construir y controlar la interfaz de usuario, además de consumir de forma
+ * asincrona los servicios pertinentes para actualizar un catador
+ */
 public class actualizarCatador extends AppCompatActivity {
 
     private EditText editTextName;
