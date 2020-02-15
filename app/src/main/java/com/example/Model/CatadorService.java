@@ -82,7 +82,7 @@ public class CatadorService {
     /**
      * permite actualizar el nombre, correo y contraseña de un Catador dado su cedula
      * @param catador objeto Catador creado con los valores a actualizar
-     * @return true si el Catador fue actualizado exitosamente, false si el catadsor no fue
+     * @return true si el Catador fue actualizado exitosamente, false si el catador no fue
      * actualizado o ocurrio  un error en el servicio.
      */
     public boolean updateCatador(Catador catador) {

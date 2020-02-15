@@ -16,7 +16,7 @@ import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
 /**
- * clase que me permite adaptar en un ListView los atributos dependiendo cada tipo de cáfe
+ * clase que me permite adaptar en un ListView los atributos dependiendo cada tipo de café
  */
 public class RegistrarCataAdapter extends ArrayAdapter<String> {
 

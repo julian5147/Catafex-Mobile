@@ -168,8 +168,8 @@ public class RegistrarCataController extends AppCompatActivity {
 
     /**
      * se encarga de hacer visible los los seekBar y recuadros de pendiendo de el número de
-     * atributos que tiene el cáfe a catar
-     * @param atributos Lista de atributos que tiene el tipo de cáfe a catar
+     * atributos que tiene el café a catar
+     * @param atributos Lista de atributos que tiene el tipo de café a catar
      */
     private void hacerVisible(List<String> atributos) {
 
