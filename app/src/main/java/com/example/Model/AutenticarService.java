@@ -38,7 +38,7 @@ public class AutenticarService {
             HttpHeaders headers = new HttpHeaders();
             headers.setContentType(MediaType.APPLICATION_JSON);
             HttpEntity<String> entity = new HttpEntity<>(jsonObject.toString(), headers);
-            String BASE_URL = "http://192.168.1.75:51316/api/ApiAutenticar";
+            String BASE_URL = "https://webapicatafex.azurewebsites.net/api/ApiAutenticar";
             return restTemplate.exchange(
                     BASE_URL, HttpMethod.POST, entity,
                     new ParameterizedTypeReference<Catador>() {

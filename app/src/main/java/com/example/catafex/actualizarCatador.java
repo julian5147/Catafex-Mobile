@@ -62,7 +62,8 @@ public class actualizarCatador extends AppCompatActivity {
                     System.out.println("-"+editTextContraseña.getText().toString());
                     if (editTextContraseña.getText().toString().equals("")) {
                         catador1.setContrasena(catador.getContrasena());
-                    } else {
+                    }
+                    else{
                         catador1.setContrasena(editTextContraseña.getText().toString());
                     }
                     catador1.setCedula(catador.getCedula());

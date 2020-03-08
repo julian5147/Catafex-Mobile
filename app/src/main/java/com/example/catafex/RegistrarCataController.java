@@ -73,24 +73,24 @@ public class RegistrarCataController extends AppCompatActivity {
             numAtributos.add((TextView) findViewById(R.id.num4));
             numAtributos.add((TextView) findViewById(R.id.num5));
             numAtributos.add((TextView) findViewById(R.id.num6));
-            numAtributos.add((TextView) findViewById(R.id.num1));
+            numAtributos.add((TextView) findViewById(R.id.num7));
             numAtributos.add((TextView) findViewById(R.id.num8));
 
             atributosActuales = new HashMap<>();
 
             editTextObservaciones = findViewById(R.id.editTextObservaciones);
 
-            Button regitrar = findViewById(R.id.buttonRegistrar);
-            hacerVisible(catasPendientes.getAtributos());
+            Button registrar = findViewById(R.id.buttonRegistrar);
+            hacerVisible(catasPendientes.getAtributos(),catasPendientes.getValoresDefecto());
             obtenerSeekBar();
 
-            regitrar.setOnClickListener(new View.OnClickListener() {
+            registrar.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View view) {
                     try {
                         Boolean result = new HttpRequestAdd().execute(obtenerValoresCata()).get();
                         if (result) {
-                            Toast.makeText(RegistrarCataController.this, "Cata # " + (catasPendientes.getVezCatada() - (catacion.getCantidad() - 1)) + " Registrada - faltan " + (catacion.getCantidad() - 1) + " catasPendientes", Toast.LENGTH_SHORT).show();
+                            Toast.makeText(RegistrarCataController.this, "Cata # " + (catasPendientes.getVezCatada() - (catacion.getCantidad() - 1)) + " Registrada - faltan " + (catacion.getCantidad() - 1) + " catasPendientes", Toast.LENGTH_LONG).show();
                             //catasPendientes.setVezCatada(catasPendientes.getVezCatada() - 1);
                             catacion.setCantidad(catacion.getCantidad() - 1);
                             Boolean resultado = new HttpResquestUpdateCatacion().execute(catacion).get();
@@ -171,13 +171,14 @@ public class RegistrarCataController extends AppCompatActivity {
      * atributos que tiene el café a catar
      * @param atributos Lista de atributos que tiene el tipo de café a catar
      */
-    private void hacerVisible(List<String> atributos) {
+    private void hacerVisible(List<String> atributos, List<String> valoresDefecto) {
 
         borrarAtributosActuales();
 
         for (int i = 0; i < atributos.size(); i++) {
             atributosActuales.put(atributos.get(i).toUpperCase(), seekBarsAtributos.get(i));
             seekBarsAtributos.get(i).setVisibility(View.VISIBLE);
+            seekBarsAtributos.get(i).setProgress(Integer.parseInt(valoresDefecto.get(i)));
             numAtributos.get(i).setVisibility(View.VISIBLE);
         }
     }
@@ -190,7 +191,6 @@ public class RegistrarCataController extends AppCompatActivity {
         Cata cata = new Cata();
         cata.setCodCata(catacion.getCodCatacion());
         cata.setObservaciones(editTextObservaciones.getText().toString());
-
 
         cata.setAroma(obtenerProgresoSeekBar("AROMA"));
         cata.setFragancia(obtenerProgresoSeekBar("FRAGANCIA"));

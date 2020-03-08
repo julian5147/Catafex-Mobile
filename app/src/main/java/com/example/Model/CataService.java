@@ -19,7 +19,7 @@ import java.util.Map;
  * Clase que permite consumir los servicios necesarios para Registrar y consultar catas pendientes
  */
 public class CataService {
-    private final String BASE_URL = "http://192.168.1.75:51316/api/ApiRegistrarCata";
+    private final String BASE_URL = "https://webapicatafex.azurewebsites.net/api/ApiRegistrarCata";
     private final RestTemplate restTemplate = new RestTemplate();
 
     /**
@@ -32,7 +32,7 @@ public class CataService {
     public boolean registrar(Cata cata) {
         try {
             Map<String, String> values = new HashMap<>();
-            values.put("codigo", cata.getCodCata());
+            values.put("codCata", cata.getCodCata());
             values.put("fragancia", String.valueOf(cata.getFragancia()));
             values.put("aroma", String.valueOf(cata.getAroma()));
             values.put("acidez", String.valueOf(cata.getAcidez()));

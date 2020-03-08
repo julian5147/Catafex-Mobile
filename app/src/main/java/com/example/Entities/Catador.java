@@ -16,6 +16,8 @@ public class Catador implements Serializable {
 
     private  String codigo;
 
+    private String estado;
+
     public String getNombre() {
         return nombre;
     }
@@ -62,5 +64,13 @@ public class Catador implements Serializable {
 
     public void setCodigo(String codigo) {
         this.codigo = codigo;
+    }
+
+    public String getEstado() {
+        return estado;
+    }
+
+    public void setEstado(String estado) {
+        this.estado = estado;
     }
 }

@@ -17,6 +17,13 @@ import android.widget.Toast;
 import com.example.Entities.Catador;
 import com.example.Model.CatadorService;
 
+import org.springframework.http.HttpEntity;
+import org.springframework.http.HttpRequest;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
+import org.springframework.web.client.HttpClientErrorException;
+import org.springframework.web.client.RestClientException;
+
 import java.util.ArrayList;
 import java.util.List;
 
@@ -42,8 +49,8 @@ public class RegistrarCatador extends AppCompatActivity {
         setContentView(R.layout.activity_registrar_catador);
         getSupportActionBar().setDisplayHomeAsUpEnabled(true);
         spinnerNivelExperiencia = (Spinner) findViewById(R.id.spinnerNivelExperiencia);
-        niveles.add("Experimentado");
-        niveles.add("Semi-Experimentado");
+        niveles.add("EXPERIMENTADO");
+        niveles.add("SEMIEXPERIMENTADO");
         niveles.add("Seleccionar");
         final int listsize = niveles.size() - 1;
 
@@ -70,36 +77,38 @@ public class RegistrarCatador extends AppCompatActivity {
             @Override
             public void onClick(View view) {
                 try {
-                    Boolean result = new HttpRequestAddCatador().execute(obtenerDatosCatador()).get();
-                    if (result) {
-                        Toast.makeText(RegistrarCatador.this, "Registrado, espere a ser habilitado para su autenticación", Toast.LENGTH_SHORT).show();
+                    HttpStatus result = new HttpRequestAddCatador().execute(obtenerDatosCatador()).get();
+                    if (result == HttpStatus.OK) {
+                        Toast.makeText(RegistrarCatador.this, "Registrado, espere a ser habilitado para su autenticación", Toast.LENGTH_LONG).show();
                         Intent intent = new Intent(RegistrarCatador.this, Principal.class);
                         startActivity(intent);
                         finish();
-                    } else {
-                        Toast.makeText(RegistrarCatador.this, "Faild", Toast.LENGTH_SHORT).show();
+                    } else if (result == HttpStatus.PRECONDITION_FAILED) {
+                        Toast.makeText(RegistrarCatador.this, "Los datos del catador no pueden estar vacios", Toast.LENGTH_LONG).show();
                     }
-                } catch (Exception e) {
-                    AlertDialog.Builder builder = new AlertDialog.Builder(getApplicationContext());
-                    builder.setMessage("Failed");
+                    else{
+                        Toast.makeText(RegistrarCatador.this, "El catador con la cedula" + obtenerDatosCatador().getCedula()  + "ya esta registrado o ocurrio un error al registrar" + result.toString(), Toast.LENGTH_LONG).show();
+                    }
+                } catch (Exception r) {
+                    Toast.makeText(RegistrarCatador.this, r.getLocalizedMessage(), Toast.LENGTH_LONG).show();
                 }
             }
         });
 
     }
 
-    private static class HttpRequestAddCatador extends AsyncTask<Catador, Void, Boolean> {
+    private static class HttpRequestAddCatador extends AsyncTask<Catador, Void, HttpStatus> {
 
 
         @Override
-        protected Boolean doInBackground(Catador... catadors) {
+        protected HttpStatus doInBackground(Catador... catadors)  {
             CatadorService catadorService = new CatadorService();
             return catadorService.registrarCatador(catadors[0]);
         }
 
         @Override
-        protected void onPostExecute(Boolean aBoolean) {
-            super.onPostExecute(aBoolean);
+        protected void onPostExecute(HttpStatus httpStatus) {
+            super.onPostExecute(httpStatus);
         }
     }
 
@@ -113,16 +122,19 @@ public class RegistrarCatador extends AppCompatActivity {
     }
 
     /**
-     * Permite obtener los valores ingresados por un catador
+     * Permite obtener los valores ingresados por un catador con sus respectivas validaciones
      * @return un objeto Catador el cual será registrado
      */
     private Catador obtenerDatosCatador() {
         Catador catador = new Catador();
+        String nivelExp = spinnerNivelExperiencia.getSelectedItem().toString();
         catador.setNombre(editTextName.getText().toString());
         catador.setCedula(editTextCedula.getText().toString());
         catador.setCorreo(editTextCorreo.getText().toString());
         catador.setContrasena(editTextContraseña.getText().toString());
-        catador.setNivelExp(spinnerNivelExperiencia.getSelectedItem().toString());
+        if(!nivelExp.equals("Seleccionar")){
+            catador.setNivelExp(nivelExp);
+        }
         catador.setCodigo(editTextCodigo.getText().toString());
         return catador;
     }
