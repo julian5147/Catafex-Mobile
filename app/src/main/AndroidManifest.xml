@@ -1,5 +1,6 @@
 <?xml version="1.0" encoding="utf-8"?>
 <manifest xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:tools="http://schemas.android.com/tools"
     package="com.example.catafex">
 
     <uses-permission android:name="android.permission.INTERNET" />
@@ -18,21 +19,29 @@
         <activity
             android:name=".Perfil"
             android:label="@string/title_activity_perfil"
-            android:theme="@style/AppTheme.NoActionBar"></activity>
+            android:theme="@style/AppTheme.NoActionBar"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity"></activity>
         <activity
             android:name=".actualizarCatador"
-            android:label="@string/action_actualizar" />
+            android:label="@string/action_actualizar"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
         <activity
             android:name=".RegistrarCatador"
-            android:label="Registro" />
-        <activity android:name=".Principal">
+            android:label="Registro"
+            android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
+        <activity android:name=".Principal" android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity">
             <intent-filter>
                 <action android:name="android.intent.action.MAIN" />
 
                 <category android:name="android.intent.category.LAUNCHER" />
             </intent-filter>
         </activity>
-        <activity android:name=".RegistrarCataController" android:label="Registrar Cata"/>
+        <activity android:name=".RegistrarCataController" android:label="Registrar Cata" android:screenOrientation="portrait"
+            tools:ignore="LockedOrientationActivity" />
     </application>
 
 </manifest>
